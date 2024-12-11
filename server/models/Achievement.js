@@ -2,27 +2,67 @@ const mongoose = require("mongoose");
 
 const achievementSchema = new mongoose.Schema(
   {
+    category: {
+      type: String,
+      enum: ["Technical", "Non Technical"],
+      required: true,
+    },
+    // Technical Achievement Fields
     innovationIndicator: {
       type: String,
       enum: ["Patent", "Research Paper", "Project", "Startup"],
-      required: true,
+      required: function () {
+        return this.category === "Technical";
+      },
     },
     Founder: {
       type: String,
-      required: true,
+      required: function () {
+        return this.category === "Technical";
+      },
     },
     publisherName: String,
-    Date: {
-      type: Date,
-      required: true,
-    },
     mentorDetails: String,
     Domain: {
       type: String,
       enum: ["AI/ML", "Web Development", "IoT", "Blockchain", "Other"],
-      required: true,
+      required: function () {
+        return this.category === "Technical";
+      },
     },
     nameOfPlatform: String,
+
+    // Non-Technical Achievement Fields
+    innovationTitle: {
+      type: String,
+      required: function () {
+        return this.category === "Non Technical";
+      },
+    },
+    description: {
+      type: String,
+      required: function () {
+        return this.category === "Non Technical";
+      },
+    },
+    applicationImpact: {
+      type: String,
+      required: function () {
+        return this.category === "Non Technical";
+      },
+    },
+    innovatorNames: {
+      type: String,
+      required: function () {
+        return this.category === "Non Technical";
+      },
+    },
+
+    // Common Fields
+    Date: {
+      type: Date,
+      required: true,
+    },
     document: String,
     currentStatus: {
       type: String,
