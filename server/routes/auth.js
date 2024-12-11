@@ -64,7 +64,7 @@ authRouter.post("/firebase-login", async (req, res) => {
         id: user._id,
         phoneNumber: user.phoneNumber,
         role: user.role,
-        ...user,
+        ...user.toObject(),
         // Add other user fields you want to return
       },
     });
