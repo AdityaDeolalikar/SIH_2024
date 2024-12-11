@@ -1,0 +1,5 @@
+server/node_modules
+client/sih/node_modules
+
+# Firebase
+src/firebase/config.js
