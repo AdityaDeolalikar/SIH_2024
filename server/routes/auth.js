@@ -29,7 +29,7 @@ authRouter.post("/firebase-login", async (req, res) => {
     }
 
     // Find or create user in your database
-    let user = await User.findOne({ firebaseUID });
+    let user = await User.findOne({ firebaseUID }).populate("institute");
 
     if (!user) {
       // Create new user if doesn't exist
@@ -37,6 +37,10 @@ authRouter.post("/firebase-login", async (req, res) => {
         firebaseUID,
         phoneNumber,
         role,
+        institute:
+          role === "student" || role === "faculty"
+            ? req.body.institute
+            : undefined,
         // Add any other fields you need
       });
       await user.save();
@@ -91,7 +95,7 @@ authRouter.post("/signup", async (req, res) => {
       yearSemester,
       department,
       skills,
-      instituteName,
+      institute,
       dateOfBirth,
       // Faculty specific fields
       employeeId,
@@ -122,6 +126,10 @@ authRouter.post("/signup", async (req, res) => {
       state,
       userType,
       firebaseUID,
+      institute:
+        userType === "student" || userType === "faculty"
+          ? req.body.institute
+          : undefined,
       // ... add other fields
     };
 
@@ -176,7 +184,7 @@ authRouter.post("/check-user", async (req, res) => {
     const { phoneNumber } = req.body;
 
     // Check if user exists in MongoDB
-    const user = await User.findOne({ phoneNumber });
+    const user = await User.findOne({ phoneNumber }).populate("institute");
 
     res.json({
       exists: !!user,

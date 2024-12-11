@@ -4,6 +4,7 @@ import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../firebase/config";
 import logo from "../assets/images/logo.png";
 import logo2 from "../assets/images/logo2.png";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const Signup = () => {
     state: "",
     department: "",
     skills: "",
-    instituteName: "",
+    institute: "",
     educationalQualification: "",
     specialization: "",
     emergencyContact: "",
@@ -42,18 +43,14 @@ const Signup = () => {
   useEffect(() => {
     const fetchInstitutions = async () => {
       try {
-        const response = await fetch(
+        const response = await axios.get(
           "https://sih-2024-e9z6.onrender.com/api/institutions"
         );
-        if (response.ok) {
-          const data = await response.json();
-          setInstitutions(data);
-        }
+        setInstitutions(response.data);
       } catch (error) {
-        console.error("Failed to fetch institutions:", error);
+        console.error("Error fetching institutions:", error);
       }
     };
-
     fetchInstitutions();
   }, []);
 
@@ -404,15 +401,15 @@ const Signup = () => {
                     Institute Name
                   </label>
                   <select
-                    name="instituteName"
-                    value={formData.instituteName}
+                    name="institute"
+                    value={formData.institute || ""}
                     onChange={handleInputChange}
-                    required
+                    required={userType === "student" || userType === "faculty"}
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="">Select Institution</option>
                     {institutions.map((institution) => (
-                      <option key={institution._id} value={institution.name}>
+                      <option key={institution._id} value={institution._id}>
                         {institution.name}
                       </option>
                     ))}
@@ -489,6 +486,26 @@ const Signup = () => {
                     required
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Institute Name
+                  </label>
+                  <select
+                    name="institute"
+                    value={formData.institute || ""}
+                    onChange={handleInputChange}
+                    required={userType === "student" || userType === "faculty"}
+                    className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Select Institution</option>
+                    {institutions.map((institution) => (
+                      <option key={institution._id} value={institution._id}>
+                        {institution.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </>
             ) : null}

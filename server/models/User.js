@@ -65,10 +65,11 @@ const userSchema = new mongoose.Schema({
       return this.userType === "student";
     },
   },
-  instituteName: {
-    type: String,
+  institute: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Institution",
     required: function () {
-      return this.userType === "student";
+      return this.userType === "student" || this.userType === "faculty";
     },
   },
   dateOfBirth: {
