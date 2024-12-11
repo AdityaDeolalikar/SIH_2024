@@ -77,53 +77,97 @@ authRouter.post("/signup", async (req, res) => {
   try {
     const {
       fullName,
-      email,
-      password,
+      phoneNumber,
+      gender,
+      address,
+      city,
+      state,
       userType,
-      // ... other fields from req.body
+      firebaseUID,
+      // ... rest of the fields
     } = req.body;
 
     // Check if user already exists
-    const userRecord = await admin
-      .auth()
-      .getUserByEmail(email)
-      .catch(() => null);
-    if (userRecord) {
+    const existingUser = await User.findOne({ phoneNumber });
+    if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user in Firebase Auth
-    const newUser = await admin.auth().createUser({
-      email,
-      password: hashedPassword,
-      displayName: fullName,
-    });
-
-    // Store user data in Firestore
+    // Create user in MongoDB
     const userData = {
-      uid: newUser.uid,
       fullName,
-      email,
+      phoneNumber,
+      gender,
+      address,
+      city,
+      state,
       userType,
-      // ... add all other fields
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      firebaseUID,
+      // ... add other fields
     };
 
-    await admin.firestore().collection("users").doc(newUser.uid).set(userData);
+    // Add conditional fields based on user type
+    if (userType === "student") {
+      Object.assign(userData, {
+        studentId,
+        programName,
+        yearSemester,
+        department,
+        skills,
+        instituteName,
+        dateOfBirth,
+      });
+    } else if (userType === "faculty") {
+      Object.assign(userData, {
+        employeeId,
+        designation,
+        department,
+        educationalQualification,
+        specialization,
+        experience,
+      });
+    }
+
+    // Add optional fields if provided
+    if (linkedinProfile) userData.linkedinProfile = linkedinProfile;
+    if (portfolio) userData.portfolio = portfolio;
+    if (emergencyContact) userData.emergencyContact = emergencyContact;
+    if (innovationInterests) userData.innovationInterests = innovationInterests;
+
+    const mongoUser = new User(userData);
+    await mongoUser.save();
 
     res.status(201).json({
       success: true,
       message: "User registered successfully",
-      uid: newUser.uid,
+      uid: firebaseUID,
     });
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({
       success: false,
       message: "Error creating user",
+      error: error.message,
+    });
+  }
+});
+
+authRouter.post("/check-user", async (req, res) => {
+  try {
+    const { phoneNumber } = req.body;
+
+    // Check if user exists in MongoDB
+    const user = await User.findOne({ phoneNumber });
+
+    res.json({
+      exists: !!user,
+      userType: user?.userType,
+    });
+  } catch (error) {
+    console.error("Check user error:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error checking user",
       error: error.message,
     });
   }

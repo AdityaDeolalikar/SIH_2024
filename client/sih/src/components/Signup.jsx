@@ -1,45 +1,38 @@
 import React, { useState } from "react";
-import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { auth } from "../firebase/config";
 import logo from "../assets/images/logo.png";
 import logo2 from "../assets/images/logo2.png";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showOTP, setShowOTP] = useState(false);
   const [userType, setUserType] = useState("student");
   const [formData, setFormData] = useState({
     fullName: "",
-    email: "",
-    contactNumber: "",
+    phoneNumber: location.state?.phoneNumber || "",
+    otp: "",
     gender: "",
     address: "",
     city: "",
     state: "",
-
-    // Student Fields
-    studentId: "",
-    programName: "",
-    yearSemester: "",
-    department: "",
-    skills: "",
-    instituteName: "",
-    dateOfBirth: "",
-
-    // Optional Fields (both Student and Faculty)
-    linkedinProfile: "",
-    portfolio: "",
-    emergencyContact: "",
-    innovationInterests: "",
-
-    // Faculty Fields
-    employeeId: "",
-    designation: "",
-    educationalQualification: "",
-    specialization: "",
-    experience: "",
+    // ... rest of the fields remain same
   });
+
+  const generateRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: () => {},
+      }
+    );
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,31 +42,66 @@ const Signup = () => {
     }));
   };
 
+  const requestOTP = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const phoneNumber = "+91" + formData.phoneNumber;
+      generateRecaptcha();
+      const appVerifier = window.recaptchaVerifier;
+
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        appVerifier
+      );
+      window.confirmationResult = confirmationResult;
+      setShowOTP(true);
+    } catch (err) {
+      setError(err.message || "Failed to send OTP");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
 
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/signup",
-        {
+      const result = await window.confirmationResult.confirm(formData.otp);
+      const user = result.user;
+
+      // Get the Firebase ID token
+      const idToken = await user.getIdToken();
+
+      // Send user data to backend
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${idToken}`,
+        },
+        body: JSON.stringify({
           ...formData,
           userType,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+          firebaseUID: user.uid,
+          phoneNumber: user.phoneNumber,
+        }),
+      });
 
-      if (response.data.success) {
+      const data = await response.json();
+
+      if (response.ok) {
         navigate("/login");
+      } else {
+        setError(data.message || "Registration failed");
       }
-    } catch (error) {
-      console.error("Signup error:", error);
-      setError(error.response?.data?.message || "Registration failed!");
+    } catch (err) {
+      setError(err.message || "Invalid OTP");
     } finally {
       setLoading(false);
     }
@@ -100,7 +128,10 @@ const Signup = () => {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form
+          onSubmit={showOTP ? handleSubmit : requestOTP}
+          className="space-y-6"
+        >
           <div className="flex justify-center space-x-4 mb-4">
             <label className="flex items-center space-x-2">
               <input
@@ -152,31 +183,34 @@ const Signup = () => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
-                Email Address
+                Phone Number
               </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
+                type="tel"
+                name="phoneNumber"
+                value={formData.phoneNumber}
                 onChange={handleInputChange}
                 required
+                disabled={showOTP}
                 className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Contact Number
-              </label>
-              <input
-                type="tel"
-                name="contactNumber"
-                value={formData.contactNumber}
-                onChange={handleInputChange}
-                required
-                className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
+            {showOTP && (
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Enter OTP
+                </label>
+                <input
+                  type="text"
+                  name="otp"
+                  value={formData.otp}
+                  onChange={handleInputChange}
+                  required
+                  className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+              </div>
+            )}
 
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -382,7 +416,7 @@ const Signup = () => {
                 loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
               } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
             >
-              {loading ? "Please wait..." : "Sign Up"}
+              {loading ? "Please wait..." : showOTP ? "Sign Up" : "Get OTP"}
             </button>
             <Link
               to="/login"
@@ -392,6 +426,7 @@ const Signup = () => {
             </Link>
           </div>
         </form>
+        <div id="recaptcha-container"></div>
       </div>
     </div>
   );

@@ -9,12 +9,12 @@ const Login = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showOTP, setShowOTP] = useState(false);
   const [formData, setFormData] = useState({
     phoneNumber: "",
     role: "student",
     otp: "",
   });
-  const [showOTP, setShowOTP] = useState(false);
 
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -40,7 +40,34 @@ const Login = () => {
     setError("");
 
     try {
-      const phoneNumber = "+91" + formData.phoneNumber; // Add country code
+      // First check if user exists
+      const response = await fetch(
+        "http://localhost:5000/api/auth/check-user",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phoneNumber: "+91" + formData.phoneNumber,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!data.exists) {
+        // User doesn't exist, redirect to signup
+        navigate("/signup", {
+          state: {
+            phoneNumber: formData.phoneNumber,
+          },
+        });
+        return;
+      }
+
+      // If user exists, proceed with OTP
+      const phoneNumber = "+91" + formData.phoneNumber;
       generateRecaptcha();
       const appVerifier = window.recaptchaVerifier;
 
