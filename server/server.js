@@ -65,6 +65,9 @@ app.get("/api/achievements", async (req, res) => {
   }
 });
 app.use("/api/auth", authRouter);
+app.get("/", (req, res) => {
+  res.send("Hello World");
+});
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
