@@ -11,7 +11,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showOTP, setShowOTP] = useState(false);
-  const [userType, setUserType] = useState("student");
+  const [userType, setUserType] = useState(location.state?.role || "student");
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: location.state?.phoneNumber || "",

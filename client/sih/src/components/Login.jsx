@@ -57,10 +57,11 @@ const Login = () => {
       const data = await response.json();
 
       if (!data.exists) {
-        // User doesn't exist, redirect to signup
+        // User doesn't exist, redirect to signup with both phone number and role
         navigate("/signup", {
           state: {
             phoneNumber: formData.phoneNumber,
+            role: formData.role,
           },
         });
         return;
@@ -223,7 +224,7 @@ const Login = () => {
                 loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
               } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
             >
-              {loading ? "Please wait..." : showOTP ? "Verify OTP" : "Get OTP"}
+              {loading ? "Please wait..." : showOTP ? "Verify OTP" : "Submit"}
             </button>
             <Link
               to="/signup"
