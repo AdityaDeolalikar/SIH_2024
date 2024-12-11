@@ -84,7 +84,25 @@ authRouter.post("/signup", async (req, res) => {
       state,
       userType,
       firebaseUID,
-      // ... rest of the fields
+      // Student specific fields
+      studentId,
+      programName,
+      yearSemester,
+      department,
+      skills,
+      instituteName,
+      dateOfBirth,
+      // Faculty specific fields
+      employeeId,
+      designation,
+      educationalQualification,
+      specialization,
+      experience,
+      // Optional fields
+      linkedinProfile,
+      portfolio,
+      emergencyContact,
+      innovationInterests,
     } = req.body;
 
     // Check if user already exists
