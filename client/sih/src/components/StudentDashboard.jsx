@@ -1520,6 +1520,34 @@ const StudentDashboard = () => {
     );
   };
 
+  // Add this constant near the other state declarations at the top of the component
+  const filterOptions = {
+    innovationIndicator: [
+      "Patent",
+      "Research Paper",
+      "Project",
+      "Startup",
+      "Competition",
+      "Grant",
+    ],
+    domain: [
+      "Computer Science",
+      "Electronics",
+      "Mechanical",
+      "Civil",
+      "Biotechnology",
+      "Chemical",
+      "Other",
+    ],
+    currentStatus: [
+      "Pending",
+      "In Progress",
+      "Completed",
+      "Approved",
+      "Rejected",
+    ],
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       <ToastContainer />
