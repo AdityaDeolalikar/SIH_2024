@@ -1,17 +1,17 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { BsBell, BsBellFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
 import { FiUser, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Slider from 'react-slick';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const FacultyDashboard = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
   const [showNotifications, setShowNotifications] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState("en");
   const [activeMenuItem, setActiveMenuItem] = useState("dashboard");
@@ -63,7 +63,10 @@ const FacultyDashboard = () => {
   // Close notifications when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
         setShowNotifications(false);
       }
     };
@@ -85,9 +88,9 @@ const FacultyDashboard = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
   };
 
   // Profile menu items
@@ -101,12 +104,16 @@ const FacultyDashboard = () => {
     {
       icon: <FiHelpCircle className="text-gray-500" />,
       label: "Help & Support",
-      action: () => {/* Handle help action */},
+      action: () => {
+        /* Handle help action */
+      },
     },
     {
       icon: <FiSettings className="text-gray-500" />,
       label: "Settings",
-      action: () => {/* Handle settings action */},
+      action: () => {
+        /* Handle settings action */
+      },
     },
     {
       icon: <FiLogOut className="text-red-500" />,
@@ -134,7 +141,9 @@ const FacultyDashboard = () => {
         {showNotifications && (
           <div className="absolute right-0 w-80 mt-2 bg-white rounded-lg shadow-lg z-50">
             <div className="p-4 border-b border-gray-100">
-              <h3 className="text-lg font-semibold text-gray-900">Notifications</h3>
+              <h3 className="text-lg font-semibold text-gray-900">
+                Notifications
+              </h3>
             </div>
             <div className="max-h-96 overflow-y-auto">
               {notifications.map((notification) => (
@@ -143,7 +152,9 @@ const FacultyDashboard = () => {
                   className="p-4 border-b border-gray-100 hover:bg-gray-50"
                 >
                   <p className="text-sm text-gray-800">{notification.text}</p>
-                  <p className="mt-1 text-xs text-gray-500">{notification.time}</p>
+                  <p className="mt-1 text-xs text-gray-500">
+                    {notification.time}
+                  </p>
                 </div>
               ))}
             </div>
@@ -192,7 +203,8 @@ const FacultyDashboard = () => {
     code: "IITB123",
     rank: "#1 in Innovation",
     university: "Autonomous Institute",
-    image: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/IIT_Bombay_Logo.svg/1200px-IIT_Bombay_Logo.svg.png" // Replace with your image path
+    image:
+      "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/IIT_Bombay_Logo.svg/1200px-IIT_Bombay_Logo.svg.png", // Replace with your image path
   });
 
   // Add this state for innovation metrics
@@ -202,15 +214,24 @@ const FacultyDashboard = () => {
     research: 82,
     startups: 88,
     projects: 80,
-    grants: 85
+    grants: 85,
   });
 
   // Add these new states
-  const [selectedMonth, setSelectedMonth] = useState('January'); // Default month
+  const [selectedMonth, setSelectedMonth] = useState("January"); // Default month
   const [monthlyData] = useState({
-    January: [65, 68, 70, 72, 75, 78, 80, 82, 85, 83, 85, 85, 87, 85, 88, 90, 88, 85, 87, 89, 90, 92, 90, 88, 85, 87, 88, 90, 92, 95],
-    February: [70, 72, 75, 78, 80, 82, 85, 87, 88, 90, 92, 95, 93, 90, 92, 95, 93, 90, 88, 85, 87, 88, 90, 92, 95, 93, 90],
-    March: [75, 78, 80, 82, 85, 87, 88, 90, 92, 95, 93, 90, 92, 95, 93, 90, 88, 85, 87, 88, 90, 92, 95, 93, 90, 92, 95, 93, 90, 88, 85],
+    January: [
+      65, 68, 70, 72, 75, 78, 80, 82, 85, 83, 85, 85, 87, 85, 88, 90, 88, 85,
+      87, 89, 90, 92, 90, 88, 85, 87, 88, 90, 92, 95,
+    ],
+    February: [
+      70, 72, 75, 78, 80, 82, 85, 87, 88, 90, 92, 95, 93, 90, 92, 95, 93, 90,
+      88, 85, 87, 88, 90, 92, 95, 93, 90,
+    ],
+    March: [
+      75, 78, 80, 82, 85, 87, 88, 90, 92, 95, 93, 90, 92, 95, 93, 90, 88, 85,
+      87, 88, 90, 92, 95, 93, 90, 92, 95, 93, 90, 88, 85,
+    ],
     // Add data for other months...
   });
 
@@ -221,43 +242,44 @@ const FacultyDashboard = () => {
       title: "Competition & Events",
       description: "Won Smart India Hackathon 2023 in Software Edition",
       // image: "https://sih.gov.in/img/SIH2023-logo.png",
-      count: "15+ Awards"
+      count: "15+ Awards",
     },
     {
       id: 2,
       title: "Research & Development",
       description: "Published 25 research papers in top-tier journals",
       // image: "https://example.com/research.jpg",
-      count: "25+ Publications"
+      count: "25+ Publications",
     },
     {
       id: 3,
       title: "Hackathon Triumphs",
       description: "Students secured top positions in national hackathons",
       // image: "https://example.com/hackathon.jpg",
-      count: "10+ Wins"
+      count: "10+ Wins",
     },
     {
       id: 4,
       title: "Certifications",
-      description: "Students achieved professional certifications from leading organizations",
+      description:
+        "Students achieved professional certifications from leading organizations",
       // image: "https://example.com/certifications.jpg",
-      count: "100+ Certified"
+      count: "100+ Certified",
     },
     {
       id: 5,
       title: "Patents Filed",
       description: "Innovation patents filed by students and faculty",
       // image: "https://example.com/patents.jpg",
-      count: "8 Patents"
+      count: "8 Patents",
     },
     {
       id: 6,
       title: "Startup Success",
       description: "Student startups receiving significant funding",
       // image: "https://example.com/startup.jpg",
-      count: "5 Startups"
-    }
+      count: "5 Startups",
+    },
   ]);
 
   // Add this function to render the achievements slider
@@ -276,16 +298,16 @@ const FacultyDashboard = () => {
           settings: {
             slidesToShow: 2,
             slidesToScroll: 1,
-          }
+          },
         },
         {
           breakpoint: 640,
           settings: {
             slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
+            slidesToScroll: 1,
+          },
+        },
+      ],
     };
 
     return (
@@ -304,7 +326,8 @@ const FacultyDashboard = () => {
                       alt={achievement.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/400x225?text=Achievement';
+                        e.target.src =
+                          "https://via.placeholder.com/400x225?text=Achievement";
                       }}
                     />
                   </div>
@@ -342,7 +365,9 @@ const FacultyDashboard = () => {
           </h2>
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
-              <h3 className="text-lg font-semibold text-blue-700">Research Papers</h3>
+              <h3 className="text-lg font-semibold text-blue-700">
+                Research Papers
+              </h3>
               <div className="mt-2 text-3xl font-bold text-blue-600">
                 {innovationMetrics.research}
               </div>
@@ -354,7 +379,9 @@ const FacultyDashboard = () => {
               </div>
             </div>
             <div className="p-4 rounded-lg bg-yellow-50 border border-yellow-100">
-              <h3 className="text-lg font-semibold text-yellow-700">Startups</h3>
+              <h3 className="text-lg font-semibold text-yellow-700">
+                Startups
+              </h3>
               <div className="mt-2 text-3xl font-bold text-yellow-600">
                 {innovationMetrics.startups}
               </div>
@@ -367,9 +394,7 @@ const FacultyDashboard = () => {
             </div>
             <div className="p-4 rounded-lg bg-pink-50 border border-pink-100">
               <h3 className="text-lg font-semibold text-pink-700">Awards</h3>
-              <div className="mt-2 text-3xl font-bold text-pink-600">
-                85
-              </div>
+              <div className="mt-2 text-3xl font-bold text-pink-600">85</div>
             </div>
           </div>
         </div>
@@ -395,16 +420,34 @@ const FacultyDashboard = () => {
           <div className="h-64">
             <svg className="w-full h-full" viewBox="0 0 800 300">
               {/* X and Y axes */}
-              <line x1="50" y1="250" x2="750" y2="250" stroke="#E5E7EB" strokeWidth="2" />
-              <line x1="50" y1="50" x2="50" y2="250" stroke="#E5E7EB" strokeWidth="2" />
-              
+              <line
+                x1="50"
+                y1="250"
+                x2="750"
+                y2="250"
+                stroke="#E5E7EB"
+                strokeWidth="2"
+              />
+              <line
+                x1="50"
+                y1="50"
+                x2="50"
+                y2="250"
+                stroke="#E5E7EB"
+                strokeWidth="2"
+              />
+
               {/* Plot line */}
               <path
-                d={`M ${monthlyData[selectedMonth].map((value, index) => {
-                  const x = 50 + (700 / (monthlyData[selectedMonth].length - 1)) * index;
-                  const y = 250 - (value * 2);
-                  return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
-                }).join(' ')}`}
+                d={`M ${monthlyData[selectedMonth]
+                  .map((value, index) => {
+                    const x =
+                      50 +
+                      (700 / (monthlyData[selectedMonth].length - 1)) * index;
+                    const y = 250 - value * 2;
+                    return `${index === 0 ? "M" : "L"} ${x} ${y}`;
+                  })
+                  .join(" ")}`}
                 fill="none"
                 stroke="#3B82F6"
                 strokeWidth="3"
@@ -412,28 +455,35 @@ const FacultyDashboard = () => {
 
               {/* Data points */}
               {monthlyData[selectedMonth].map((value, index) => {
-                const x = 50 + (700 / (monthlyData[selectedMonth].length - 1)) * index;
-                const y = 250 - (value * 2);
+                const x =
+                  50 + (700 / (monthlyData[selectedMonth].length - 1)) * index;
+                const y = 250 - value * 2;
                 return (
-                  <circle
-                    key={index}
-                    cx={x}
-                    cy={y}
-                    r="4"
-                    fill="#3B82F6"
-                  />
+                  <circle key={index} cx={x} cy={y} r="4" fill="#3B82F6" />
                 );
               })}
 
               {/* Y-axis labels */}
-              <text x="30" y="250" textAnchor="end" className="text-sm">0%</text>
-              <text x="30" y="150" textAnchor="end" className="text-sm">50%</text>
-              <text x="30" y="50" textAnchor="end" className="text-sm">100%</text>
+              <text x="30" y="250" textAnchor="end" className="text-sm">
+                0%
+              </text>
+              <text x="30" y="150" textAnchor="end" className="text-sm">
+                50%
+              </text>
+              <text x="30" y="50" textAnchor="end" className="text-sm">
+                100%
+              </text>
 
               {/* X-axis labels */}
-              <text x="50" y="270" textAnchor="middle" className="text-sm">1</text>
-              <text x="400" y="270" textAnchor="middle" className="text-sm">15</text>
-              <text x="750" y="270" textAnchor="middle" className="text-sm">30</text>
+              <text x="50" y="270" textAnchor="middle" className="text-sm">
+                1
+              </text>
+              <text x="400" y="270" textAnchor="middle" className="text-sm">
+                15
+              </text>
+              <text x="750" y="270" textAnchor="middle" className="text-sm">
+                30
+              </text>
             </svg>
           </div>
         </div>
@@ -462,25 +512,33 @@ const FacultyDashboard = () => {
                 </h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm text-gray-500">Institute Name</label>
+                    <label className="text-sm text-gray-500">
+                      Institute Name
+                    </label>
                     <p className="text-lg font-medium text-gray-900">
                       {instituteDetails.name}
                     </p>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-500">Institute Code</label>
+                    <label className="text-sm text-gray-500">
+                      Institute Code
+                    </label>
                     <p className="text-lg font-medium text-gray-900">
                       {instituteDetails.code}
                     </p>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-500">Current Rank</label>
+                    <label className="text-sm text-gray-500">
+                      Current Rank
+                    </label>
                     <p className="text-lg font-medium text-blue-600">
                       {instituteDetails.rank}
                     </p>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-500">Affiliated to</label>
+                    <label className="text-sm text-gray-500">
+                      Affiliated to
+                    </label>
                     <p className="text-lg font-medium text-gray-900">
                       {instituteDetails.university}
                     </p>
@@ -508,7 +566,9 @@ const FacultyDashboard = () => {
                     strokeWidth="8"
                     fill="none"
                     strokeDasharray={`${2 * Math.PI * 45}`}
-                    strokeDashoffset={`${2 * Math.PI * 45 * (1 - innovationMetrics.patents / 100)}`}
+                    strokeDashoffset={`${
+                      2 * Math.PI * 45 * (1 - innovationMetrics.patents / 100)
+                    }`}
                     className="transition-all duration-1000"
                   />
                   {/* Research Indicator */}
@@ -520,7 +580,9 @@ const FacultyDashboard = () => {
                     strokeWidth="8"
                     fill="none"
                     strokeDasharray={`${2 * Math.PI * 40}`}
-                    strokeDashoffset={`${2 * Math.PI * 40 * (1 - innovationMetrics.research / 100)}`}
+                    strokeDashoffset={`${
+                      2 * Math.PI * 40 * (1 - innovationMetrics.research / 100)
+                    }`}
                     className="transition-all duration-1000"
                   />
                   {/* Startups Indicator */}
@@ -532,7 +594,9 @@ const FacultyDashboard = () => {
                     strokeWidth="8"
                     fill="none"
                     strokeDasharray={`${2 * Math.PI * 35}`}
-                    strokeDashoffset={`${2 * Math.PI * 35 * (1 - innovationMetrics.startups / 100)}`}
+                    strokeDashoffset={`${
+                      2 * Math.PI * 35 * (1 - innovationMetrics.startups / 100)
+                    }`}
                     className="transition-all duration-1000"
                   />
                   {/* Center Circle */}
@@ -545,7 +609,7 @@ const FacultyDashboard = () => {
                   />
                 </svg>
               </div>
-              
+
               {/* Center Text */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="text-center">
@@ -561,19 +625,27 @@ const FacultyDashboard = () => {
             <div className="mt-8 grid grid-cols-2 gap-4">
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span className="text-sm text-gray-600">Patents ({innovationMetrics.patents})</span>
+                <span className="text-sm text-gray-600">
+                  Patents ({innovationMetrics.patents})
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="text-sm text-gray-600">Research ({innovationMetrics.research})</span>
+                <span className="text-sm text-gray-600">
+                  Research ({innovationMetrics.research})
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <span className="text-sm text-gray-600">Startups ({innovationMetrics.startups})</span>
+                <span className="text-sm text-gray-600">
+                  Startups ({innovationMetrics.startups})
+                </span>
               </div>
               <div className="flex items-center space-x-2">
                 <div className="w-3 h-3 rounded-full bg-purple-500"></div>
-                <span className="text-sm text-gray-600">Projects ({innovationMetrics.projects})</span>
+                <span className="text-sm text-gray-600">
+                  Projects ({innovationMetrics.projects})
+                </span>
               </div>
             </div>
           </div>
@@ -601,7 +673,7 @@ const FacultyDashboard = () => {
                   Srujan Portal
                 </span>
                 <p className="text-sm text-gray-300">
-                  {user?.name || "Faculty / Institute"}
+                  {user?.fullName || "Faculty / Institute"}
                 </p>
               </div>
             </div>
@@ -678,4 +750,4 @@ const FacultyDashboard = () => {
   );
 };
 
-export default FacultyDashboard; 
+export default FacultyDashboard;

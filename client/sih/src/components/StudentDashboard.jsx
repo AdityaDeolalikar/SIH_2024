@@ -1173,10 +1173,10 @@ const StudentDashboard = () => {
         </div>
         <div className="hidden md:block text-left">
           <p className="text-sm font-medium text-white">
-            {user?.name || "Student"}
+            {user?.fullName || "Student"}
           </p>
           <p className="text-xs text-white  ">
-            {user?.email || "student@example.com"}
+            {user?.phoneNumber || "student@example.com"}
           </p>
         </div>
       </button>

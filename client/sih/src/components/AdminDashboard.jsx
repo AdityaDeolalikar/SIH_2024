@@ -1,14 +1,14 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/");
   };
 
   return (
@@ -17,11 +17,15 @@ const AdminDashboard = () => {
         <div className="px-8 mx-auto max-w-7xl">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">Administrator Dashboard</h1>
+              <h1 className="text-2xl font-bold text-gray-900">
+                Administrator Dashboard
+              </h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-gray-700">Welcome, {user?.name}</span>
-              <button 
+              <span className="text-gray-700">
+                Welcome, {user?.fullName ?? "Admin"}
+              </span>
+              <button
                 onClick={handleLogout}
                 className="px-4 py-2 text-sm text-white bg-red-600 rounded-md hover:bg-red-700"
               >
@@ -77,7 +81,9 @@ const AdminDashboard = () => {
                 </button>
                 <div className="p-4 bg-gray-50 rounded-md">
                   <h3 className="font-medium">System Status</h3>
-                  <p className="text-sm text-green-600">All systems operational</p>
+                  <p className="text-sm text-green-600">
+                    All systems operational
+                  </p>
                 </div>
               </div>
             </div>
@@ -88,4 +94,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;
