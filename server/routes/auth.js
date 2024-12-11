@@ -141,7 +141,7 @@ authRouter.post("/signup", async (req, res) => {
         yearSemester,
         department,
         skills,
-        instituteName,
+        institute,
         dateOfBirth,
       });
     } else if (userType === "faculty") {
