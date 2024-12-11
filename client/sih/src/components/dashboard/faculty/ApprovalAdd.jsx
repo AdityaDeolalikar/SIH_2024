@@ -13,7 +13,7 @@ const ApprovalAdd = () => {
       const _user = localStorage.getItem("user");
       const user = JSON.parse(_user);
       const response = await axios.get(
-        `https://sih-2024-e9z6.onrender.com/api/achievements?institution=${user?.institution}`
+        `https://sih-2024-e9z6.onrender.com/api/achievements?institution=${user?.institute?._id}`
       );
       setPendingAchievements(response.data);
     } catch (error) {
