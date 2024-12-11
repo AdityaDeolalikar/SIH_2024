@@ -295,13 +295,16 @@ const StudentDashboard = () => {
       try {
         setLoading(true);
         // Fetch both technical and non-technical achievements
-        const response = await axios.get("/api/achievements", {
-          // Add any filters you need
-          params: {
-            // You might want to filter by the current user's institution
-            // institution: currentUser.institution
-          },
-        });
+        const response = await axios.get(
+          "https://sih-2024-e9z6.onrender.com/api/achievements",
+          {
+            // Add any filters you need
+            params: {
+              // You might want to filter by the current user's institution
+              // institution: currentUser.institution
+            },
+          }
+        );
 
         setAchievements(response.data);
       } catch (err) {
