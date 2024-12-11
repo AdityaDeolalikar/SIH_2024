@@ -18,53 +18,13 @@ mongoose
 // Import Achievement model
 const Achievement = require("./models/Achievement");
 const authRouter = require("./routes/auth");
+const achievementsRouter = require("./routes/achievements");
+const institutionsRouter = require("./routes/institutions");
 
 // Get all achievements route with filters
-app.get("/api/achievements", async (req, res) => {
-  try {
-    const { innovationIndicator, domain, currentStatus, date } = req.query;
-
-    // Build filter object
-    const filter = {};
-
-    if (innovationIndicator) {
-      filter.innovationIndicator = innovationIndicator;
-    }
-
-    if (domain) {
-      filter.Domain = domain; // Note: Using 'Domain' to match the schema
-    }
-
-    if (currentStatus) {
-      filter.currentStatus = currentStatus;
-    }
-
-    if (date) {
-      // For date filtering, assuming you want to match the exact date
-      const startDate = new Date(date);
-      const endDate = new Date(date);
-      endDate.setDate(endDate.getDate() + 1);
-
-      filter.Date = {
-        $gte: startDate,
-        $lt: endDate,
-      };
-    }
-
-    console.log("Applied filters:", filter, req.query); // Debug log
-
-    const achievements = await Achievement.find(filter).sort({ Date: -1 });
-
-    console.log("Achievements fetched:", achievements.length);
-    res.json(achievements);
-  } catch (error) {
-    console.error("Error fetching achievements:", error);
-    res
-      .status(500)
-      .json({ message: "Error fetching achievements", error: error.message });
-  }
-});
+app.use("/api/achievements", achievementsRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/institutions", institutionsRouter);
 app.get("/", (req, res) => {
   res.send("Hello World");
 });

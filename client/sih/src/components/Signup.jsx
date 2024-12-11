@@ -28,6 +28,7 @@ const Signup = () => {
     emergencyContact: "",
     innovationInterests: "",
   });
+  const [institutions, setInstitutions] = useState([]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -37,6 +38,24 @@ const Signup = () => {
       navigate(`/dashboard/${user.role}`);
     }
   }, [navigate]);
+
+  useEffect(() => {
+    const fetchInstitutions = async () => {
+      try {
+        const response = await fetch(
+          "https://sih-2024-e9z6.onrender.com/api/institutions"
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setInstitutions(data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch institutions:", error);
+      }
+    };
+
+    fetchInstitutions();
+  }, []);
 
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(
@@ -384,14 +403,20 @@ const Signup = () => {
                   <label className="block text-sm font-medium text-gray-700">
                     Institute Name
                   </label>
-                  <input
-                    type="text"
+                  <select
                     name="instituteName"
                     value={formData.instituteName}
                     onChange={handleInputChange}
                     required
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                  >
+                    <option value="">Select Institution</option>
+                    {institutions.map((institution) => (
+                      <option key={institution._id} value={institution.name}>
+                        {institution.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </>
             ) : userType === "faculty" ? (

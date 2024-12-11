@@ -1,13 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { BsBell, BsBellFill } from "react-icons/bs";
-import { IoNotifications } from "react-icons/io5";
 import { FiUser, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ApprovalAdd from "./dashboard/faculty/ApprovalAdd";
+import ChartCustomization from "./dashboard/faculty/ChartCustomization";
+import ExcellenceMetrics from "./dashboard/faculty/ExcellenceMetrics";
+import Mentorship from "./dashboard/faculty/Mentorship";
+import Leaderboard from "./dashboard/faculty/Leaderboard";
+import DashboardContent from "./dashboard/faculty/DashboardCount";
 
 const FacultyDashboard = () => {
   const navigate = useNavigate();
@@ -742,7 +747,10 @@ const FacultyDashboard = () => {
         <main className="py-8">
           <div className="px-8 mx-auto max-w-7xl">
             {activeMenuItem === "dashboard" && renderDashboardContent()}
-            {/* Other menu item content... */}
+            {activeMenuItem === "approval" && <ApprovalAdd />}
+            {activeMenuItem === "mentorship" && <Mentorship />}
+            {activeMenuItem === "leaderboard" && <Leaderboard />}
+            {activeMenuItem === "chart" && <ChartCustomization />}
           </div>
         </main>
       </div>

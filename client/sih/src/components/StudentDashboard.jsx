@@ -6,6 +6,7 @@ import { FiUser, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import moment from "moment/moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import VerificationComp from "./dashboard/Verification";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -1577,14 +1578,7 @@ const StudentDashboard = () => {
             {activeMenuItem === "dashboard" && renderDashboardContent()}
             {activeMenuItem === "profile" && renderProfileContent()}
             {activeMenuItem === "achievements" && renderAchievementsContent()}
-            {activeMenuItem === "verification" && (
-              <div className="p-6 bg-white rounded-xl shadow-sm">
-                <h2 className="mb-4 text-xl font-semibold">
-                  Request Verification
-                </h2>
-                {/* Verification content */}
-              </div>
-            )}
+            {activeMenuItem === "verification" && <VerificationComp />}
             {activeMenuItem === "team" && renderTeamContent()}
             {activeMenuItem === "communities" && renderLeaderboardContent()}
           </div>
