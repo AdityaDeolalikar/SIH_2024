@@ -79,19 +79,22 @@ const Signup = () => {
       const idToken = await user.getIdToken();
 
       // Send user data to backend
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${idToken}`,
-        },
-        body: JSON.stringify({
-          ...formData,
-          userType,
-          firebaseUID: user.uid,
-          phoneNumber: user.phoneNumber,
-        }),
-      });
+      const response = await fetch(
+        "https://sih-2024-e9z6.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${idToken}`,
+          },
+          body: JSON.stringify({
+            ...formData,
+            userType,
+            firebaseUID: user.uid,
+            phoneNumber: user.phoneNumber,
+          }),
+        }
+      );
 
       const data = await response.json();
 

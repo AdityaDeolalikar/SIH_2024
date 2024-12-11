@@ -42,7 +42,7 @@ const Login = () => {
     try {
       // First check if user exists
       const response = await fetch(
-        "http://localhost:5000/api/auth/check-user",
+        "https://sih-2024-e9z6.onrender.com/api/auth/check-user",
         {
           method: "POST",
           headers: {
@@ -99,7 +99,7 @@ const Login = () => {
 
       // Send to backend
       const response = await fetch(
-        "http://localhost:5000/api/auth/firebase-login",
+        "https://sih-2024-e9z6.onrender.com/api/auth/firebase-login",
         {
           method: "POST",
           headers: {

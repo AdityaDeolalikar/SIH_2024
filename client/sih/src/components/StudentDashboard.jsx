@@ -4,8 +4,8 @@ import { BsBell, BsBellFill } from "react-icons/bs";
 import { IoNotifications } from "react-icons/io5";
 import { FiUser, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import moment from "moment/moment";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -20,18 +20,20 @@ const StudentDashboard = () => {
   const [teamDescription, setTeamDescription] = useState("");
   const [teamMembers, setTeamMembers] = useState([""]);
   const [teams, setTeams] = useState(() => {
-    const savedTeams = localStorage.getItem('teams');
-    return savedTeams ? JSON.parse(savedTeams) : [
-      {
-        id: 1,
-        name: "Tech Innovators",
-        projectType: "Web Development",
-        description: "Building innovative web solutions",
-        members: ["John Doe", "Jane Smith", "Mike Johnson"],
-        mentorType: 'assign',
-        mentor: 'Dr. Sarah Wilson'
-      },
-    ];
+    const savedTeams = localStorage.getItem("teams");
+    return savedTeams
+      ? JSON.parse(savedTeams)
+      : [
+          {
+            id: 1,
+            name: "Tech Innovators",
+            projectType: "Web Development",
+            description: "Building innovative web solutions",
+            members: ["John Doe", "Jane Smith", "Mike Johnson"],
+            mentorType: "assign",
+            mentor: "Dr. Sarah Wilson",
+          },
+        ];
   });
   const [isEditingInfo, setIsEditingInfo] = useState(false);
   const [studentInfo, setStudentInfo] = useState({
@@ -51,13 +53,13 @@ const StudentDashboard = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const profileRef = useRef(null);
   const [filters, setFilters] = useState({
-    innovationIndicator: '',
-    domain: '',
-    currentStatus: '',
-    date: '',
+    innovationIndicator: "",
+    domain: "",
+    currentStatus: "",
+    date: "",
   });
-  const [mentorType, setMentorType] = useState('assign'); // 'assign' or 'request'
-  const [mentorName, setMentorName] = useState('');
+  const [mentorType, setMentorType] = useState("assign"); // 'assign' or 'request'
+  const [mentorName, setMentorName] = useState("");
   const [studentLeaderboard] = useState([
     { id: 1, name: "Arjun Patel", points: 950 },
     { id: 2, name: "Priya Sharma", points: 920 },
@@ -68,7 +70,7 @@ const StudentDashboard = () => {
     { id: 7, name: "Aditya Kumar", points: 780 },
     { id: 8, name: "Shreya Singh", points: 765 },
     { id: 9, name: "Vikram Malhotra", points: 740 },
-    { id: 10, name: "Riya Desai", points: 725 }
+    { id: 10, name: "Riya Desai", points: 725 },
   ]);
 
   const [instituteLeaderboard] = useState([
@@ -81,7 +83,7 @@ const StudentDashboard = () => {
     { id: 7, name: "NIT Trichy", innovationIndex: 86.8 },
     { id: 8, name: "IIT Roorkee", innovationIndex: 85.9 },
     { id: 9, name: "IIIT Hyderabad", innovationIndex: 85.2 },
-    { id: 10, name: "DTU Delhi", innovationIndex: 84.6 }
+    { id: 10, name: "DTU Delhi", innovationIndex: 84.6 },
   ]);
 
   // Sidebar menu items
@@ -190,9 +192,9 @@ const StudentDashboard = () => {
       try {
         const updatedTeams = teams.filter((team) => team.id !== teamId);
         setTeams(updatedTeams);
-        localStorage.setItem('teams', JSON.stringify(updatedTeams));
-        
-        toast.success('Team deleted successfully', {
+        localStorage.setItem("teams", JSON.stringify(updatedTeams));
+
+        toast.success("Team deleted successfully", {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: false,
@@ -201,7 +203,7 @@ const StudentDashboard = () => {
           draggable: true,
         });
       } catch (error) {
-        toast.error('Error deleting team', {
+        toast.error("Error deleting team", {
           position: "top-right",
           autoClose: 3000,
         });
@@ -218,7 +220,7 @@ const StudentDashboard = () => {
       description: teamDescription,
       members: teamMembers.filter((member) => member.trim() !== ""),
       mentorType,
-      mentor: mentorType === 'assign' ? mentorName : 'Not Assigned'
+      mentor: mentorType === "assign" ? mentorName : "Not Assigned",
     };
     setTeams([...teams, newTeam]);
 
@@ -227,12 +229,12 @@ const StudentDashboard = () => {
     setProjectType("");
     setTeamDescription("");
     setTeamMembers([""]);
-    setMentorType('assign');
-    setMentorName('');
+    setMentorType("assign");
+    setMentorName("");
     setShowTeamForm(false);
 
     // Toast notification
-    toast.success('Team created successfully', {
+    toast.success("Team created successfully", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -299,7 +301,7 @@ const StudentDashboard = () => {
         });
 
         const response = await fetch(
-          `http://localhost:5000/api/achievements?${queryParams.toString()}`
+          `https://sih-2024-e9z6.onrender.com/api/achievements?${queryParams.toString()}`
         );
 
         if (!response.ok) {
@@ -320,9 +322,9 @@ const StudentDashboard = () => {
   }, [filters]);
 
   const handleFilterChange = (field, value) => {
-    setFilters(prev => ({
+    setFilters((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
@@ -332,8 +334,8 @@ const StudentDashboard = () => {
         {/* Statistics Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
           {statistics.map((stat, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className="p-6 bg-white rounded-sm shadow-custom hover:shadow-custom-hover transition-all duration-300"
             >
               <div className="flex items-center justify-between">
@@ -556,9 +558,9 @@ const StudentDashboard = () => {
 
     // Add these filter options
     const filterOptions = {
-      innovationIndicator: ['Patent', 'Research Paper', 'Project', 'Startup'],
-      domain: ['AI/ML', 'Web Development', 'IoT', 'Blockchain', 'Other'],
-      currentStatus: ['Pending', 'Approved', 'Rejected', 'In Progress'],
+      innovationIndicator: ["Patent", "Research Paper", "Project", "Startup"],
+      domain: ["AI/ML", "Web Development", "IoT", "Blockchain", "Other"],
+      currentStatus: ["Pending", "Approved", "Rejected", "In Progress"],
     };
 
     return (
@@ -579,7 +581,9 @@ const StudentDashboard = () => {
             </label>
             <select
               value={filters.innovationIndicator}
-              onChange={(e) => handleFilterChange('innovationIndicator', e.target.value)}
+              onChange={(e) =>
+                handleFilterChange("innovationIndicator", e.target.value)
+              }
               className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
               <option value="">All Types</option>
@@ -598,7 +602,7 @@ const StudentDashboard = () => {
             </label>
             <select
               value={filters.domain}
-              onChange={(e) => handleFilterChange('domain', e.target.value)}
+              onChange={(e) => handleFilterChange("domain", e.target.value)}
               className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
               <option value="">All Domains</option>
@@ -617,7 +621,9 @@ const StudentDashboard = () => {
             </label>
             <select
               value={filters.currentStatus}
-              onChange={(e) => handleFilterChange('currentStatus', e.target.value)}
+              onChange={(e) =>
+                handleFilterChange("currentStatus", e.target.value)
+              }
               className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
               <option value="">All Status</option>
@@ -637,7 +643,7 @@ const StudentDashboard = () => {
             <input
               type="date"
               value={filters.date}
-              onChange={(e) => handleFilterChange('date', e.target.value)}
+              onChange={(e) => handleFilterChange("date", e.target.value)}
               className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
@@ -895,7 +901,7 @@ const StudentDashboard = () => {
                   </select>
                 </div>
 
-                {mentorType === 'assign' && (
+                {mentorType === "assign" && (
                   <div className="flex-1">
                     <input
                       type="text"
@@ -983,44 +989,46 @@ const StudentDashboard = () => {
                   </p>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <button 
+                  <button
                     onClick={() => handleDeleteTeam(team.id)}
                     className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors duration-200"
                     title="Delete Team"
                   >
-                    <svg 
-                      xmlns="http://www.w3.org/2000/svg" 
-                      className="h-5 w-5" 
-                      fill="none" 
-                      viewBox="0 0 24 24" 
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
                       stroke="currentColor"
                     >
-                      <path 
-                        strokeLinecap="round" 
-                        strokeLinejoin="round" 
-                        strokeWidth={2} 
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" 
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                       />
                     </svg>
                   </button>
                 </div>
               </div>
               <p className="mb-4 text-gray-700">{team.description}</p>
-              
+
               {/* Mentor Status */}
               <div className="mb-4">
                 <h4 className="text-sm font-medium text-gray-700 mb-2">
                   Mentor Status
                 </h4>
                 <div className="flex items-center space-x-2">
-                  <span className={`px-3 py-1 rounded-full text-sm ${
-                    team.mentorType === 'assign' 
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {team.mentorType === 'assign' 
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm ${
+                      team.mentorType === "assign"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {team.mentorType === "assign"
                       ? `Mentor: ${team.mentor}`
-                      : 'Mentor: Not Assigned (Requested)'}
+                      : "Mentor: Not Assigned (Requested)"}
                   </span>
                 </div>
               </div>
@@ -1047,17 +1055,17 @@ const StudentDashboard = () => {
           {teams.length === 0 && (
             <div className="py-12 text-center">
               <div className="mb-4 text-gray-400">
-                <svg 
-                  className="mx-auto h-12 w-12" 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  className="mx-auto h-12 w-12"
+                  fill="none"
+                  stroke="currentColor"
                   viewBox="0 0 24 24"
                 >
-                  <path 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth={2} 
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" 
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
               </div>
@@ -1327,8 +1335,12 @@ const StudentDashboard = () => {
           {/* Student Leaderboard */}
           <div className="bg-white rounded-xl shadow-sm">
             <div className="p-6 border-b border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-800">Student Leaderboard</h2>
-              <p className="mt-1 text-sm text-gray-500">Top performing students based on innovation points</p>
+              <h2 className="text-xl font-semibold text-gray-800">
+                Student Leaderboard
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Top performing students based on innovation points
+              </p>
             </div>
             <div className="p-6">
               <div className="overflow-x-auto">
@@ -1348,16 +1360,20 @@ const StudentDashboard = () => {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {studentLeaderboard.map((student, index) => (
-                      <tr 
+                      <tr
                         key={student.id}
                         className={`${
-                          index < 3 ? 'bg-blue-50/50' : ''
+                          index < 3 ? "bg-blue-50/50" : ""
                         } hover:bg-gray-50 transition-colors duration-200`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className={`text-sm ${
-                            index < 3 ? 'font-semibold text-blue-600' : 'text-gray-900'
-                          }`}>
+                          <div
+                            className={`text-sm ${
+                              index < 3
+                                ? "font-semibold text-blue-600"
+                                : "text-gray-900"
+                            }`}
+                          >
                             {index + 1}
                           </div>
                         </td>
@@ -1382,8 +1398,12 @@ const StudentDashboard = () => {
           {/* Institute Leaderboard */}
           <div className="bg-white rounded-xl shadow-sm">
             <div className="p-6 border-b border-gray-100">
-              <h2 className="text-xl font-semibold text-gray-800">Institute Leaderboard</h2>
-              <p className="mt-1 text-sm text-gray-500">Top institutes based on innovation index</p>
+              <h2 className="text-xl font-semibold text-gray-800">
+                Institute Leaderboard
+              </h2>
+              <p className="mt-1 text-sm text-gray-500">
+                Top institutes based on innovation index
+              </p>
             </div>
             <div className="p-6">
               <div className="overflow-x-auto">
@@ -1403,16 +1423,20 @@ const StudentDashboard = () => {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {instituteLeaderboard.map((institute, index) => (
-                      <tr 
+                      <tr
                         key={institute.id}
                         className={`${
-                          index < 3 ? 'bg-green-50/50' : ''
+                          index < 3 ? "bg-green-50/50" : ""
                         } hover:bg-gray-50 transition-colors duration-200`}
                       >
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className={`text-sm ${
-                            index < 3 ? 'font-semibold text-green-600' : 'text-gray-900'
-                          }`}>
+                          <div
+                            className={`text-sm ${
+                              index < 3
+                                ? "font-semibold text-green-600"
+                                : "text-gray-900"
+                            }`}
+                          >
                             {index + 1}
                           </div>
                         </td>
