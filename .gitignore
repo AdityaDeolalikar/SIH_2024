@@ -3,3 +3,4 @@ client/sih/node_modules
 
 # Firebase
 src/firebase/config.js
+.vercel
