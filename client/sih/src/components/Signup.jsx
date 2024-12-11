@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../firebase/config";
@@ -28,6 +28,15 @@ const Signup = () => {
     emergencyContact: "",
     innovationInterests: "",
   });
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+    if (token && user.role) {
+      navigate(`/dashboard/${user.role}`);
+    }
+  }, [navigate]);
 
   const generateRecaptcha = () => {
     window.recaptchaVerifier = new RecaptchaVerifier(

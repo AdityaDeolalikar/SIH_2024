@@ -1,24 +1,66 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./components/HomePage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthRoute from "./components/AuthRoute";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 import StudentDashboard from "./components/StudentDashboard";
 import FacultyDashboard from "./components/FacultyDashboard";
 import AdminDashboard from "./components/AdminDashboard";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
+import { Navigate } from "react-router-dom";
+import HomePage from "./components/HomePage";
 
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-gray-100">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/dashboard/student" element={<StudentDashboard />} />
-          <Route path="/dashboard/faculty" element={<FacultyDashboard />} />
-          <Route path="/dashboard/admin" element={<AdminDashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </div>
+      <Routes>
+        {/* Public routes with authentication check */}
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/login"
+          element={
+            <AuthRoute>
+              <Login />
+            </AuthRoute>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <AuthRoute>
+              <Signup />
+            </AuthRoute>
+          }
+        />
+
+        {/* Protected routes */}
+        <Route
+          path="/dashboard/student/*"
+          element={
+            <ProtectedRoute allowedRoles={["student"]}>
+              <StudentDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/faculty/*"
+          element={
+            <ProtectedRoute allowedRoles={["faculty"]}>
+              <FacultyDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/admin/*"
+          element={
+            <ProtectedRoute allowedRoles={["administrator"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Redirect root to login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+      </Routes>
     </Router>
   );
 }
