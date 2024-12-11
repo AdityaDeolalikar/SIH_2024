@@ -20,7 +20,13 @@ const Signup = () => {
     address: "",
     city: "",
     state: "",
-    // ... rest of the fields remain same
+    department: "",
+    skills: "",
+    instituteName: "",
+    educationalQualification: "",
+    specialization: "",
+    emergencyContact: "",
+    innovationInterests: "",
   });
 
   const generateRecaptcha = () => {
@@ -274,6 +280,20 @@ const Signup = () => {
               />
             </div>
 
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Department
+              </label>
+              <input
+                type="text"
+                name="department"
+                value={formData.department}
+                onChange={handleInputChange}
+                required
+                className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
             {/* Role-specific Fields */}
             {userType === "student" ? (
               <>
@@ -332,6 +352,34 @@ const Signup = () => {
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Skills
+                  </label>
+                  <input
+                    type="text"
+                    name="skills"
+                    value={formData.skills}
+                    onChange={handleInputChange}
+                    required
+                    className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Institute Name
+                  </label>
+                  <input
+                    type="text"
+                    name="instituteName"
+                    value={formData.instituteName}
+                    onChange={handleInputChange}
+                    required
+                    className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
               </>
             ) : userType === "faculty" ? (
               <>
@@ -376,6 +424,34 @@ const Signup = () => {
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Educational Qualification
+                  </label>
+                  <input
+                    type="text"
+                    name="educationalQualification"
+                    value={formData.educationalQualification}
+                    onChange={handleInputChange}
+                    required
+                    className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Specialization
+                  </label>
+                  <input
+                    type="text"
+                    name="specialization"
+                    value={formData.specialization}
+                    onChange={handleInputChange}
+                    required
+                    className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
               </>
             ) : null}
 
@@ -403,6 +479,31 @@ const Signup = () => {
                     type="url"
                     name="portfolio"
                     value={formData.portfolio}
+                    onChange={handleInputChange}
+                    className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Emergency Contact
+                  </label>
+                  <input
+                    type="text"
+                    name="emergencyContact"
+                    value={formData.emergencyContact}
+                    onChange={handleInputChange}
+                    className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">
+                    Innovation Interests
+                  </label>
+                  <textarea
+                    name="innovationInterests"
+                    value={formData.innovationInterests}
                     onChange={handleInputChange}
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
