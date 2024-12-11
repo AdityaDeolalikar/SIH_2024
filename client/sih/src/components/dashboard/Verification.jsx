@@ -26,9 +26,18 @@ const VerificationComp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Get the token from localStorage
+      const token = localStorage.getItem("token");
+
       const response = await axios.post(
         "https://sih-2024-e9z6.onrender.com/api/achievements",
-        achievementData
+        achievementData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
 
       if (response.status === 201) {
@@ -47,7 +56,11 @@ const VerificationComp = () => {
       }
     } catch (error) {
       console.error("Error submitting achievement:", error);
-      alert("Failed to submit achievement. Please try again.");
+      if (error.response?.status === 401) {
+        alert("Authentication failed. Please login again.");
+      } else {
+        alert("Failed to submit achievement. Please try again.");
+      }
     }
   };
 

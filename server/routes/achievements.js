@@ -5,13 +5,18 @@ const User = require("../models/User");
 
 achievementsRouter.get("/", async (req, res) => {
   try {
-    const { innovationIndicator, domain, currentStatus, date } = req.query;
+    const { innovationIndicator, domain, currentStatus, date, institution } =
+      req.query;
 
     // Build filter object
     const filter = {};
 
     if (innovationIndicator) {
       filter.innovationIndicator = innovationIndicator;
+    }
+
+    if (institution) {
+      filter.institution = institution;
     }
 
     if (domain) {
@@ -51,7 +56,7 @@ achievementsRouter.get("/", async (req, res) => {
 // Add new POST route for submitting achievements
 achievementsRouter.post("/", async (req, res) => {
   try {
-    const faculty = await User.findOne({ userType: "faculty" });
+    const institution = req?.user?.institution;
     const achievement = new Achievement({
       innovationIndicator: req.body.innovationIndicator,
       Founder: req.body.Founder,
@@ -60,7 +65,7 @@ achievementsRouter.post("/", async (req, res) => {
       mentorDetails: req.body.mentorDetails,
       Domain: req.body.Domain,
       nameOfPlatform: req.body.nameOfPlatform,
-      assignedTo: faculty?._id,
+      institution,
       status: "pending", // Default status for new achievements
     });
 

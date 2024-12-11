@@ -29,9 +29,10 @@ const achievementSchema = new mongoose.Schema(
       enum: ["Pending", "Approved", "Rejected"],
       default: "Pending",
     },
-    assignedTo: {
+    institution: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "Institution",
+      required: true,
     },
   },
   { timestamps: true }

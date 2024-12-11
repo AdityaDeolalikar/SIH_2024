@@ -10,8 +10,10 @@ const ApprovalAdd = () => {
 
   const fetchPendingAchievements = async () => {
     try {
+      const _user = localStorage.getItem("user");
+      const user = JSON.parse(_user);
       const response = await axios.get(
-        "https://sih-2024-e9z6.onrender.com/api/achievements?currentStatus=Pending"
+        `https://sih-2024-e9z6.onrender.com/api/achievements?institution=${user?.institution}`
       );
       setPendingAchievements(response.data);
     } catch (error) {
