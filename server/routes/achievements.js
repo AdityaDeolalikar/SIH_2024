@@ -58,15 +58,34 @@ achievementsRouter.post("/", async (req, res) => {
   try {
     const institution = req?.user?.institution;
     const achievement = new Achievement({
-      innovationIndicator: req.body.innovationIndicator,
-      Founder: req.body.Founder,
-      publisherName: req.body.publisherName,
+      // Required field for all achievements
+      category: req.body.category,
       Date: req.body.Date,
-      mentorDetails: req.body.mentorDetails,
-      Domain: req.body.Domain,
-      nameOfPlatform: req.body.nameOfPlatform,
       institution,
-      status: "pending", // Default status for new achievements
+      currentStatus: "Pending", // Note: Changed to match the enum case in schema
+
+      // Technical Achievement Fields (required if category is "Technical")
+      ...(req.body.category === "Technical" && {
+        innovationIndicator: req.body.innovationIndicator,
+        Founder: req.body.Founder,
+        Domain: req.body.Domain,
+      }),
+
+      // Optional Technical fields
+      publisherName: req.body.publisherName,
+      mentorDetails: req.body.mentorDetails,
+      nameOfPlatform: req.body.nameOfPlatform,
+
+      // Non-Technical Achievement Fields (required if category is "Non Technical")
+      ...(req.body.category === "Non Technical" && {
+        innovationTitle: req.body.innovationTitle,
+        description: req.body.description,
+        applicationImpact: req.body.applicationImpact,
+        innovatorNames: req.body.innovatorNames,
+      }),
+
+      // Optional common field
+      document: req.body.document,
     });
 
     const savedAchievement = await achievement.save();

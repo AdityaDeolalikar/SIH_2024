@@ -56,6 +56,7 @@ authRouter.post("/firebase-login", async (req, res) => {
         userId: user._id,
         role: user.role,
         firebaseUID: user.firebaseUID,
+        institution: user.institute,
       },
       process.env.JWT_SECRET,
       { expiresIn: "24h" }

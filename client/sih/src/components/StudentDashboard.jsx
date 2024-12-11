@@ -7,6 +7,7 @@ import moment from "moment/moment";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerificationComp from "./dashboard/Verification";
+import axios from "axios";
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const StudentDashboard = () => {
   });
   const [editedStudentInfo, setEditedStudentInfo] = useState(studentInfo);
   const [achievements, setAchievements] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const profileRef = useRef(null);
@@ -292,35 +293,27 @@ const StudentDashboard = () => {
   useEffect(() => {
     const fetchAchievements = async () => {
       try {
-        setIsLoading(true);
-        setError(null);
-
-        // Create query string from filters
-        const queryParams = new URLSearchParams();
-        Object.entries(filters).forEach(([key, value]) => {
-          if (value) queryParams.append(key, value);
+        setLoading(true);
+        // Fetch both technical and non-technical achievements
+        const response = await axios.get("/api/achievements", {
+          // Add any filters you need
+          params: {
+            // You might want to filter by the current user's institution
+            // institution: currentUser.institution
+          },
         });
 
-        const response = await fetch(
-          `https://sih-2024-e9z6.onrender.com/api/achievements?${queryParams.toString()}`
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        console.log("Fetched achievements:", data);
-        setAchievements(data);
+        setAchievements(response.data);
       } catch (err) {
         console.error("Error fetching achievements:", err);
-        setError(err.message);
+        setError("Failed to load achievements");
       } finally {
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     fetchAchievements();
-  }, [filters]);
+  }, []);
 
   const handleFilterChange = (field, value) => {
     setFilters((prev) => ({
@@ -531,7 +524,7 @@ const StudentDashboard = () => {
 
   // Achievements section
   const renderAchievementsContent = () => {
-    if (isLoading) {
+    if (loading) {
       return (
         <div className="p-8 bg-white rounded-xl shadow-sm">
           <div className="flex items-center justify-center h-64">
@@ -557,243 +550,334 @@ const StudentDashboard = () => {
       );
     }
 
-    // Add these filter options
-    const filterOptions = {
-      innovationIndicator: ["Patent", "Research Paper", "Project", "Startup"],
-      domain: ["AI/ML", "Web Development", "IoT", "Blockchain", "Other"],
-      currentStatus: ["Pending", "Approved", "Rejected", "In Progress"],
-    };
+    // Filter achievements by category
+    const technicalAchievements = achievements.filter(
+      (achievement) => achievement.category === "Technical"
+    );
+
+    const nonTechnicalAchievements = achievements.filter(
+      (achievement) => achievement.category === "Non Technical"
+    );
 
     return (
-      <div className="p-8 bg-white rounded-xl shadow-sm">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800">Achievements</h2>
-          <p className="mt-1 text-gray-600">
-            Track your innovation and research accomplishments
-          </p>
+      <div className="space-y-8">
+        {/* Technical Achievements */}
+        <div className="p-8 bg-white rounded-xl shadow-sm">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-800">
+              Technical Achievements
+            </h2>
+            <p className="mt-1 text-gray-600">
+              Track your innovation and research accomplishments
+            </p>
+          </div>
+
+          {/* Filter Section */}
+          <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+            {/* Innovation Indicator Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Innovation Type
+              </label>
+              <select
+                value={filters.innovationIndicator}
+                onChange={(e) =>
+                  handleFilterChange("innovationIndicator", e.target.value)
+                }
+                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option value="">All Types</option>
+                {filterOptions.innovationIndicator.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Domain Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Domain
+              </label>
+              <select
+                value={filters.domain}
+                onChange={(e) => handleFilterChange("domain", e.target.value)}
+                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option value="">All Domains</option>
+                {filterOptions.domain.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Status Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Status
+              </label>
+              <select
+                value={filters.currentStatus}
+                onChange={(e) =>
+                  handleFilterChange("currentStatus", e.target.value)
+                }
+                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              >
+                <option value="">All Status</option>
+                {filterOptions.currentStatus.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Date Filter */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Date
+              </label>
+              <input
+                type="date"
+                value={filters.date}
+                onChange={(e) => handleFilterChange("date", e.target.value)}
+                className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          {achievements.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-gray-500">No achievements found</p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Sr. No.
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Innovation Indicator
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Founder
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Publisher Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Mentor Details
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Domain
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Platform Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Document
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                    >
+                      Current Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {technicalAchievements.map((achievement, index) => (
+                    <tr
+                      key={achievement._id}
+                      className="hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {index + 1}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800`}
+                        >
+                          {achievement.innovationIndicator}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">
+                          {achievement.Founder}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {achievement.publisherName}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-500">
+                          {moment(achievement.Date).format("DD-MM-YYYY")}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm">
+                          <div className="font-medium text-gray-900">
+                            {achievement.mentorDetails}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          {achievement.Domain}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">
+                          {achievement.nameOfPlatform}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <a
+                          href={`/documents/${achievement.document}`}
+                          className="inline-flex items-center text-sm text-blue-600 hover:text-blue-900"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <svg
+                            className="w-4 h-4 mr-1"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
+                          </svg>
+                          View
+                        </a>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                          
+                              :bg-gray-100 text-gray-800
+                          `}
+                        >
+                          {achievement.currentStatus}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
 
-        {/* Filter Section */}
-        <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* Innovation Indicator Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Innovation Type
-            </label>
-            <select
-              value={filters.innovationIndicator}
-              onChange={(e) =>
-                handleFilterChange("innovationIndicator", e.target.value)
-              }
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-              <option value="">All Types</option>
-              {filterOptions.innovationIndicator.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
+        {/* Non-Technical Achievements */}
+        <div className="p-8 bg-white rounded-xl shadow-sm">
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold text-gray-800">
+              Non-Technical Achievements
+            </h2>
+            <p className="mt-1 text-gray-600">
+              Track your extracurricular and co-curricular accomplishments
+            </p>
           </div>
 
-          {/* Domain Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Domain
-            </label>
-            <select
-              value={filters.domain}
-              onChange={(e) => handleFilterChange("domain", e.target.value)}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-              <option value="">All Domains</option>
-              {filterOptions.domain.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Status Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Status
-            </label>
-            <select
-              value={filters.currentStatus}
-              onChange={(e) =>
-                handleFilterChange("currentStatus", e.target.value)
-              }
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            >
-              <option value="">All Status</option>
-              {filterOptions.currentStatus.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Date Filter */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Date
-            </label>
-            <input
-              type="date"
-              value={filters.date}
-              onChange={(e) => handleFilterChange("date", e.target.value)}
-              className="w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-
-        {achievements.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500">No achievements found</p>
-          </div>
-        ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Sr. No.
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Category
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Innovation Indicator
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Title
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Founder
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Position/Achievement
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Publisher Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
                     Date
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Mentor Details
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Description
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Domain
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Platform Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Document
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                  >
-                    Current Status
+                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                    Status
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {achievements.map((achievement, index) => (
+                {nonTechnicalAchievements.map((achievement) => (
                   <tr
-                    key={achievement._id}
+                    key={achievement.id}
                     className="hover:bg-gray-50 transition-colors duration-200"
                   >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {index + 1}
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800`}
-                      >
-                        {achievement.innovationIndicator}
+                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                        {achievement.category}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {achievement.Founder}
+                        {achievement.title}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
-                        {achievement.publisherName}
+                        {achievement.position}
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-500">
-                        {moment(achievement.Date).format("DD-MM-YYYY")}
+                        {moment(achievement.date).format("DD-MM-YYYY")}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm">
-                        <div className="font-medium text-gray-900">
-                          {achievement.mentorDetails}
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {achievement.Domain}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">
-                        {achievement.nameOfPlatform}
+                        {achievement.description}
                       </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <a
-                        href={`/documents/${achievement.document}`}
-                        className="inline-flex items-center text-sm text-blue-600 hover:text-blue-900"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <svg
-                          className="w-4 h-4 mr-1"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" />
-                        </svg>
-                        View
-                      </a>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                        
-                            :bg-gray-100 text-gray-800
-                        `}
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          achievement.status === "Verified"
+                            ? "bg-green-100 text-green-800"
+                            : "bg-yellow-100 text-yellow-800"
+                        }`}
                       >
-                        {achievement.currentStatus}
+                        {achievement.status}
                       </span>
                     </td>
                   </tr>
@@ -801,7 +885,7 @@ const StudentDashboard = () => {
               </tbody>
             </table>
           </div>
-        )}
+        </div>
       </div>
     );
   };
@@ -1108,53 +1192,23 @@ const StudentDashboard = () => {
           <div className="py-2 border-b">
             <div className="flex justify-between items-center px-4">
               <div className="flex items-center space-x-2">
-                <IoNotifications className="text-blue-600 text-xl" />
-                <h3 className="text-sm font-semibold text-gray-700">
-                  Notifications
-                </h3>
+                <div className="flex relative w-3 h-3">
+                  <span className="inline-flex absolute w-full h-full bg-green-400 rounded-full opacity-75 animate-ping"></span>
+                  <span className="inline-flex relative w-3 h-3 bg-green-500 rounded-full"></span>
+                </div>
+                <span className="text-sm font-medium text-white">Active</span>
               </div>
-              <button className="text-xs text-blue-600 hover:text-blue-800 font-medium">
-                Mark all as read
+              <button
+                onClick={handleLogout}
+                className="flex items-center text-sm font-medium text-red-600 hover:text-red-700"
+              >
+                <i className="mr-2 fas fa-sign-out-alt"></i>
+                Sign Out
               </button>
             </div>
-          </div>
-          <div className="max-h-64 overflow-y-auto">
-            {notifications.map((notification) => (
-              <div
-                key={notification.id}
-                className={`px-4 py-3 hover:bg-gray-50 transition-colors ${
-                  notification.unread ? "bg-blue-50/50" : ""
-                }`}
-              >
-                <div className="flex items-start space-x-3">
-                  <div
-                    className={`mt-1 w-2 h-2 rounded-full flex-shrink-0 ${
-                      notification.unread ? "bg-blue-600" : "bg-gray-300"
-                    }`}
-                  />
-                  <div>
-                    <p
-                      className={`text-sm ${
-                        notification.unread
-                          ? "text-gray-900 font-medium"
-                          : "text-gray-600"
-                      }`}
-                    >
-                      {notification.text}
-                    </p>
-                    <p className="text-xs text-gray-500 mt-1">
-                      {notification.time}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="py-2 border-t">
-            <div className="px-4 text-center">
-              <button className="text-sm text-blue-600 hover:text-blue-800 font-medium">
-                View all notifications
-              </button>
+            <div className="flex justify-between items-center text-xs text-white">
+              <span>Version 1.0.0</span>
+              <span>© 2024</span>
             </div>
           </div>
         </div>
