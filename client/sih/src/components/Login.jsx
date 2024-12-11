@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../firebase/config";
 import logo from "../assets/images/logo.png";
@@ -7,12 +7,13 @@ import logo2 from "../assets/images/logo2.png";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showOTP, setShowOTP] = useState(false);
   const [formData, setFormData] = useState({
     phoneNumber: "",
-    role: "student",
+    role: location.state?.role || "student",
     otp: "",
   });
 

@@ -105,7 +105,11 @@ const Signup = () => {
       const data = await response.json();
 
       if (response.ok) {
-        navigate("/login");
+        navigate("/login", {
+          state: {
+            role: userType,
+          },
+        });
       } else {
         setError(data.message || "Registration failed");
       }
