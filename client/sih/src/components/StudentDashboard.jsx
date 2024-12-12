@@ -329,13 +329,13 @@ const StudentDashboard = () => {
     return (
       <div className="space-y-8">
         {/* Statistics Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
           {statistics.map((stat, index) => (
             <div
               key={index}
-              className="p-6 bg-white rounded-sm shadow-custom hover:shadow-custom-hover transition-all duration-300"
+              className="p-6 bg-white rounded-sm transition-all duration-300 shadow-custom hover:shadow-custom-hover"
             >
-              <div className="flex items-center justify-between">
+              <div className="flex justify-between items-center">
                 <span className="text-3xl">{stat.icon}</span>
                 <span className="text-2xl font-bold text-gray-900">
                   {stat.count}
@@ -349,14 +349,14 @@ const StudentDashboard = () => {
         </div>
 
         {/* Recent Activity */}
-        <div className="p-6 bg-white rounded-sm shadow-custom hover:shadow-custom-hover transition-all duration-300">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <div className="p-6 bg-white rounded-sm transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+          <h2 className="mb-4 text-xl font-semibold text-gray-900">
             Recent Activity
           </h2>
           <div className="space-y-4">
-            <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-              <div className="flex-shrink-0 w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                <span className="text-blue-600 text-lg">📝</span>
+            <div className="flex items-center p-4 space-x-4 bg-gray-50 rounded-lg">
+              <div className="flex flex-shrink-0 justify-center items-center w-10 h-10 bg-blue-100 rounded-full">
+                <span className="text-lg text-blue-600">📝</span>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900">
@@ -368,9 +368,9 @@ const StudentDashboard = () => {
               </div>
               <span className="ml-auto text-xs text-gray-500">2 hours ago</span>
             </div>
-            <div className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-              <div className="flex-shrink-0 w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
-                <span className="text-green-600 text-lg">🏆</span>
+            <div className="flex items-center p-4 space-x-4 bg-gray-50 rounded-lg">
+              <div className="flex flex-shrink-0 justify-center items-center w-10 h-10 bg-green-100 rounded-full">
+                <span className="text-lg text-green-600">🏆</span>
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-900">
@@ -386,31 +386,31 @@ const StudentDashboard = () => {
         </div>
 
         {/* Personalized Recommendations */}
-        <div className="p-6 bg-white rounded-sm shadow-custom hover:shadow-custom-hover transition-all duration-300">
-          <div className="flex items-center justify-between mb-6">
+        <div className="p-6 bg-white rounded-sm transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+          <div className="flex justify-between items-center mb-6">
             <div>
               <h2 className="text-xl font-semibold text-gray-900">
                 Personalized Recommendations
               </h2>
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="mt-1 text-sm text-gray-500">
                 Opportunities matching your profile and interests
               </p>
             </div>
-            <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+            <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
               View All
             </button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {/* Research Papers */}
-            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl shadow-custom hover:shadow-custom-hover transition-all duration-300">
-              <div className="flex items-center space-x-3 mb-3">
+            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+              <div className="flex items-center mb-3 space-x-3">
                 <span className="text-2xl">📚</span>
                 <h3 className="text-lg font-semibold text-gray-900">
                   Research Papers
                 </h3>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="mb-4 text-sm text-gray-600">
                 Call for papers in International Journal of AI & ML
               </p>
               <div className="flex justify-between items-center">
@@ -424,14 +424,14 @@ const StudentDashboard = () => {
             </div>
 
             {/* Certifications & Grants */}
-            <div className="p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl shadow-custom hover:shadow-custom-hover transition-all duration-300">
-              <div className="flex items-center space-x-3 mb-3">
+            <div className="p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+              <div className="flex items-center mb-3 space-x-3">
                 <span className="text-2xl">🎓</span>
                 <h3 className="text-lg font-semibold text-gray-900">
                   Certification
                 </h3>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="mb-4 text-sm text-gray-600">
                 AWS Cloud Practitioner Certification Program
               </p>
               <div className="flex justify-between items-center">
@@ -445,14 +445,14 @@ const StudentDashboard = () => {
             </div>
 
             {/* Startups */}
-            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl shadow-custom hover:shadow-custom-hover transition-all duration-300">
-              <div className="flex items-center space-x-3 mb-3">
+            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+              <div className="flex items-center mb-3 space-x-3">
                 <span className="text-2xl">🚀</span>
                 <h3 className="text-lg font-semibold text-gray-900">
                   Startup Program
                 </h3>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="mb-4 text-sm text-gray-600">
                 Campus Startup Challenge 2024
               </p>
               <div className="flex justify-between items-center">
@@ -464,12 +464,12 @@ const StudentDashboard = () => {
             </div>
 
             {/* Awards */}
-            <div className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl shadow-custom hover:shadow-custom-hover transition-all duration-300">
-              <div className="flex items-center space-x-3 mb-3">
+            <div className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+              <div className="flex items-center mb-3 space-x-3">
                 <span className="text-2xl">🏆</span>
                 <h3 className="text-lg font-semibold text-gray-900">Awards</h3>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="mb-4 text-sm text-gray-600">
                 Young Innovator Award 2024
               </p>
               <div className="flex justify-between items-center">
@@ -481,14 +481,14 @@ const StudentDashboard = () => {
             </div>
 
             {/* Hackathons */}
-            <div className="p-4 bg-gradient-to-br from-red-50 to-red-100 rounded-xl shadow-custom hover:shadow-custom-hover transition-all duration-300">
-              <div className="flex items-center space-x-3 mb-3">
+            <div className="p-4 bg-gradient-to-br from-red-50 to-red-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+              <div className="flex items-center mb-3 space-x-3">
                 <span className="text-2xl">💻</span>
                 <h3 className="text-lg font-semibold text-gray-900">
                   Hackathon
                 </h3>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="mb-4 text-sm text-gray-600">
                 National AI/ML Hackathon
               </p>
               <div className="flex justify-between items-center">
@@ -502,14 +502,14 @@ const StudentDashboard = () => {
             </div>
 
             {/* Grants */}
-            <div className="p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl shadow-custom hover:shadow-custom-hover transition-all duration-300">
-              <div className="flex items-center space-x-3 mb-3">
+            <div className="p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
+              <div className="flex items-center mb-3 space-x-3">
                 <span className="text-2xl">💰</span>
                 <h3 className="text-lg font-semibold text-gray-900">
                   Research Grant
                 </h3>
               </div>
-              <p className="text-sm text-gray-600 mb-4">
+              <p className="mb-4 text-sm text-gray-600">
                 Student Innovation Research Grant
               </p>
               <div className="flex justify-between items-center">
@@ -530,8 +530,8 @@ const StudentDashboard = () => {
     if (loading) {
       return (
         <div className="p-8 bg-white rounded-xl shadow-sm">
-          <div className="flex items-center justify-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <div className="flex justify-center items-center h-64">
+            <div className="w-12 h-12 rounded-full border-b-2 border-blue-600 animate-spin"></div>
           </div>
         </div>
       );
@@ -544,7 +544,7 @@ const StudentDashboard = () => {
             <p>Error loading achievements: {error}</p>
             <button
               onClick={() => window.location.reload()}
-              className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              className="px-4 py-2 mt-4 text-white bg-blue-600 rounded-lg hover:bg-blue-700"
             >
               Retry
             </button>
@@ -576,10 +576,10 @@ const StudentDashboard = () => {
           </div>
 
           {/* Filter Section */}
-          <div className="mb-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 mb-6 md:grid-cols-4">
             {/* Innovation Indicator Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 Innovation Type
               </label>
               <select
@@ -600,7 +600,7 @@ const StudentDashboard = () => {
 
             {/* Domain Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 Domain
               </label>
               <select
@@ -619,7 +619,7 @@ const StudentDashboard = () => {
 
             {/* Status Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 Status
               </label>
               <select
@@ -640,7 +640,7 @@ const StudentDashboard = () => {
 
             {/* Date Filter */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 Date
               </label>
               <input
@@ -653,7 +653,7 @@ const StudentDashboard = () => {
           </div>
 
           {achievements.length === 0 ? (
-            <div className="text-center py-12">
+            <div className="py-12 text-center">
               <p className="text-gray-500">No achievements found</p>
             </div>
           ) : (
@@ -663,61 +663,61 @@ const StudentDashboard = () => {
                   <tr>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Sr. No.
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Innovation Indicator
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Founder
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Publisher Name
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Date
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Mentor Details
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Domain
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Platform Name
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Document
                     </th>
                     <th
                       scope="col"
-                      className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      className="px-6 py-3 text-xs font-semibold tracking-wider text-left text-gray-500 uppercase whitespace-nowrap"
                     >
                       Current Status
                     </th>
@@ -727,9 +727,9 @@ const StudentDashboard = () => {
                   {technicalAchievements.map((achievement, index) => (
                     <tr
                       key={achievement._id}
-                      className="hover:bg-gray-50 transition-colors duration-200"
+                      className="transition-colors duration-200 hover:bg-gray-50"
                     >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                      <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                         {index + 1}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -779,7 +779,7 @@ const StudentDashboard = () => {
                           rel="noopener noreferrer"
                         >
                           <svg
-                            className="w-4 h-4 mr-1"
+                            className="mr-1 w-4 h-4"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                           >
@@ -821,50 +821,32 @@ const StudentDashboard = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Category
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                     Title
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Position/Achievement
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                     Description
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Impact
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Innovators
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                    Date
+                  </th>
+                  <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                     Status
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {nonTechnicalAchievements.map((achievement) => (
-                  <tr
-                    key={achievement.id}
-                    className="hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                        {achievement.category}
-                      </span>
-                    </td>
+                  <tr key={achievement._id} className="transition-colors duration-200 hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm font-medium text-gray-900">
-                        {achievement.title}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">
-                        {achievement.position}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">
-                        {moment(achievement.date).format("DD-MM-YYYY")}
+                        {achievement.innovationTitle}
                       </div>
                     </td>
                     <td className="px-6 py-4">
@@ -872,15 +854,30 @@ const StudentDashboard = () => {
                         {achievement.description}
                       </div>
                     </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-900">
+                        {achievement.applicationImpact}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="text-sm text-gray-900">
+                        {achievement.innovatorNames}
+                      </div>
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span
-                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          achievement.status === "Verified"
-                            ? "bg-green-100 text-green-800"
-                            : "bg-yellow-100 text-yellow-800"
-                        }`}
-                      >
-                        {achievement.status}
+                      <div className="text-sm text-gray-500">
+                        {moment(achievement.Date).format("DD-MM-YYYY")}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                        achievement.currentStatus === "Approved"
+                          ? "bg-green-100 text-green-800"
+                          : achievement.currentStatus === "Rejected"
+                          ? "bg-red-100 text-red-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}>
+                        {achievement.currentStatus}
                       </span>
                     </td>
                   </tr>
@@ -974,7 +971,7 @@ const StudentDashboard = () => {
 
             {/* Mentor Section */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block mb-2 text-sm font-medium text-gray-700">
                 Mentor Assignment
               </label>
               <div className="space-y-4">
@@ -996,7 +993,7 @@ const StudentDashboard = () => {
                       value={mentorName}
                       onChange={(e) => setMentorName(e.target.value)}
                       placeholder="Enter mentor name"
-                      className="w-full px-4 py-2 rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                      className="px-4 py-2 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                 )}
@@ -1065,7 +1062,7 @@ const StudentDashboard = () => {
           {teams.map((team) => (
             <div
               key={team.id}
-              className="p-6 bg-gray-50 rounded-lg border border-gray-100 hover:shadow-md transition-all duration-300"
+              className="p-6 bg-gray-50 rounded-lg border border-gray-100 transition-all duration-300 hover:shadow-md"
             >
               <div className="flex justify-between items-start mb-4">
                 <div>
@@ -1079,12 +1076,12 @@ const StudentDashboard = () => {
                 <div className="flex items-center space-x-3">
                   <button
                     onClick={() => handleDeleteTeam(team.id)}
-                    className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors duration-200"
+                    className="p-2 text-red-600 rounded-full transition-colors duration-200 hover:bg-red-50"
                     title="Delete Team"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5"
+                      className="w-5 h-5"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -1103,7 +1100,7 @@ const StudentDashboard = () => {
 
               {/* Mentor Status */}
               <div className="mb-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">
+                <h4 className="mb-2 text-sm font-medium text-gray-700">
                   Mentor Status
                 </h4>
                 <div className="flex items-center space-x-2">
@@ -1144,7 +1141,7 @@ const StudentDashboard = () => {
             <div className="py-12 text-center">
               <div className="mb-4 text-gray-400">
                 <svg
-                  className="mx-auto h-12 w-12"
+                  className="mx-auto w-12 h-12"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -1191,7 +1188,7 @@ const StudentDashboard = () => {
 
       {/* Notifications Dropdown */}
       {showNotifications && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+        <div className="absolute right-0 z-50 mt-2 w-80 bg-white rounded-xl ring-1 ring-black ring-opacity-5 shadow-lg">
           <div className="py-2 border-b">
             <div className="flex justify-between items-center px-4">
               <div className="flex items-center space-x-2">
@@ -1224,16 +1221,16 @@ const StudentDashboard = () => {
     <div className="relative" ref={profileRef}>
       <button
         onClick={() => setShowProfileMenu(!showProfileMenu)}
-        className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none "
+        className="flex items-center p-2 space-x-3 rounded-lg transition-colors hover:bg-gray-100 focus:outline-none"
       >
-        <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+        <div className="flex justify-center items-center w-8 h-8 bg-blue-100 rounded-full">
           <FiUser className="text-blue-600" />
         </div>
-        <div className="hidden md:block text-left">
+        <div className="hidden text-left md:block">
           <p className="text-sm font-medium text-white">
             {user?.fullName || "Student"}
           </p>
-          <p className="text-xs text-white  ">
+          <p className="text-xs text-white">
             {user?.phoneNumber || "student@example.com"}
           </p>
         </div>
@@ -1241,13 +1238,13 @@ const StudentDashboard = () => {
 
       {/* Profile Dropdown Menu */}
       {showProfileMenu && (
-        <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+        <div className="absolute right-0 z-50 mt-2 w-56 bg-white rounded-xl ring-1 ring-black ring-opacity-5 shadow-lg">
           {/* User Info Section */}
           <div className="p-4 border-b">
             <p className="text-sm font-medium text-gray-900">
               {user?.name || "Student"}
             </p>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="mt-1 text-xs text-gray-500">
               {user?.email || "student@example.com"}
             </p>
           </div>
@@ -1281,7 +1278,7 @@ const StudentDashboard = () => {
       {/* Profile Header */}
       <div className="p-6 bg-white rounded-xl shadow-sm">
         <div className="flex items-center space-x-4">
-          <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center">
+          <div className="flex justify-center items-center w-20 h-20 bg-blue-100 rounded-full">
             <FiUser className="w-10 h-10 text-blue-600" />
           </div>
           <div>
@@ -1297,10 +1294,10 @@ const StudentDashboard = () => {
 
       {/* Personal Information */}
       <div className="p-6 bg-white rounded-xl shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           Personal Information
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Full Name
@@ -1330,10 +1327,10 @@ const StudentDashboard = () => {
 
       {/* Contact Information */}
       <div className="p-6 bg-white rounded-xl shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           Contact Information
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Email
@@ -1363,10 +1360,10 @@ const StudentDashboard = () => {
 
       {/* Academic Progress */}
       <div className="p-6 bg-white rounded-xl shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900">
           Academic Progress
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           <div className="p-4 bg-blue-50 rounded-lg">
             <h4 className="text-sm font-medium text-blue-700">Projects</h4>
             <p className="mt-2 text-2xl font-bold text-blue-900">12</p>
@@ -1389,7 +1386,7 @@ const StudentDashboard = () => {
   const renderLeaderboardContent = () => {
     return (
       <div className="space-y-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Student Leaderboard */}
           <div className="bg-white rounded-xl shadow-sm">
             <div className="p-6 border-b border-gray-100">
@@ -1405,13 +1402,13 @@ const StudentDashboard = () => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead>
                     <tr className="bg-gray-50">
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Rank
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Name
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Points
                       </th>
                     </tr>
@@ -1468,13 +1465,13 @@ const StudentDashboard = () => {
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead>
                     <tr className="bg-gray-50">
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Rank
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Institute Name
                       </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      <th className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                         Innovation Index
                       </th>
                     </tr>

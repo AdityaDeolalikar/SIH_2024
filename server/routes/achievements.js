@@ -57,41 +57,55 @@ achievementsRouter.get("/", async (req, res) => {
 achievementsRouter.post("/", async (req, res) => {
   try {
     const institution = req?.user?.institution;
+    
+    // Validate required fields based on category
+    if (req.body.category === "Non Technical") {
+      if (!req.body.innovationTitle || !req.body.description || 
+          !req.body.applicationImpact || !req.body.innovatorNames) {
+        return res.status(400).json({ 
+          message: "Missing required fields for non-technical achievement" 
+        });
+      }
+    }
+
     const achievement = new Achievement({
-      // Required field for all achievements
+      // Common fields
       category: req.body.category,
       Date: req.body.Date,
       institution,
-      currentStatus: "Pending", // Note: Changed to match the enum case in schema
+      currentStatus: "Pending",
+      document: req.body.document,
 
-      // Technical Achievement Fields (required if category is "Technical")
+      // Technical Achievement Fields
       ...(req.body.category === "Technical" && {
         innovationIndicator: req.body.innovationIndicator,
         Founder: req.body.Founder,
         Domain: req.body.Domain,
+        publisherName: req.body.publisherName,
+        mentorDetails: req.body.mentorDetails,
+        nameOfPlatform: req.body.nameOfPlatform,
       }),
 
-      // Optional Technical fields
-      publisherName: req.body.publisherName,
-      mentorDetails: req.body.mentorDetails,
-      nameOfPlatform: req.body.nameOfPlatform,
-
-      // Non-Technical Achievement Fields (required if category is "Non Technical")
+      // Non-Technical Achievement Fields
       ...(req.body.category === "Non Technical" && {
         innovationTitle: req.body.innovationTitle,
         description: req.body.description,
         applicationImpact: req.body.applicationImpact,
-        innovatorNames: req.body.innovatorNames,
-      }),
-
-      // Optional common field
-      document: req.body.document,
+        innovatorNames: Array.isArray(req.body.innovatorNames) 
+          ? req.body.innovatorNames 
+          : [req.body.innovatorNames],
+        achievementType: req.body.achievementType
+      })
     });
 
     const savedAchievement = await achievement.save();
     res.status(201).json(savedAchievement);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    console.error("Error creating achievement:", error);
+    res.status(500).json({ 
+      message: "Error creating achievement", 
+      error: error.message 
+    });
   }
 });
 

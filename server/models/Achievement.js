@@ -35,27 +35,34 @@ const achievementSchema = new mongoose.Schema(
     // Non-Technical Achievement Fields
     innovationTitle: {
       type: String,
-      required: function () {
+      required: function() {
         return this.category === "Non Technical";
-      },
+      }
     },
     description: {
       type: String,
-      required: function () {
+      required: function() {
         return this.category === "Non Technical";
-      },
+      }
     },
     applicationImpact: {
       type: String,
-      required: function () {
+      required: function() {
         return this.category === "Non Technical";
-      },
+      }
     },
     innovatorNames: {
-      type: String,
-      required: function () {
+      type: [String],
+      required: function() {
         return this.category === "Non Technical";
-      },
+      }
+    },
+    achievementType: {
+      type: String,
+      enum: ["Cultural", "Sports", "Social Work", "Leadership", "Other"],
+      required: function() {
+        return this.category === "Non Technical";
+      }
     },
 
     // Common Fields
