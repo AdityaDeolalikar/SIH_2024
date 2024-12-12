@@ -118,13 +118,13 @@ const HeroSlider = () => {
   }
 
   return (
-    <div className="relative h-[calc(100vh-8rem)] bg-gradient-to-r from-blue-900 to-indigo-900">
+    <div className="relative h-[85vh] bg-gradient-to-r from-blue-900 to-indigo-900">
       <Slider {...settings} className="h-full">
         {slides.map((slide) => (
           <div key={slide.id} className="h-full outline-none">
-            <div className="flex flex-col h-full lg:flex-row">
+            <div className="flex h-full">
               {/* Image Half */}
-              <div className="relative w-full h-1/2 lg:h-full lg:w-1/2">
+              <div className="relative w-[40%] h-full">
                 <div className="absolute inset-0 z-10 bg-gradient-to-r to-transparent from-blue-900/30" />
                 <img
                   src={slide.image}
@@ -135,13 +135,13 @@ const HeroSlider = () => {
               </div>
 
               {/* Content Half */}
-              <div className="flex items-center px-6 py-8 w-full h-1/2 bg-gradient-to-l from-transparent to-blue-900/10 lg:h-full lg:w-1/2 lg:px-20">
-                <div className="space-y-4 max-w-2xl lg:space-y-8">
-                  <h2 className="text-3xl font-bold leading-tight text-white lg:text-5xl">
+              <div className="flex items-center px-16 w-[50%] h-full bg-gradient-to-l from-transparent to-blue-900/10">
+                <div className="space-y-8 max-w-2xl">
+                  <h2 className="text-5xl font-bold leading-tight text-white">
                     {slide.title}
                   </h2>
-                  <div className="w-20 h-2 bg-blue-500 rounded-full" />
-                  <p className="text-base leading-relaxed text-gray-200 lg:text-xl">
+                  <div className="w-24 h-2 bg-blue-500 rounded-full" />
+                  <p className="text-xl leading-relaxed text-gray-200">
                     {slide.description}
                   </p>
                 </div>
@@ -211,7 +211,7 @@ const InnovationIndicators = () => {
   ];
 
   return (
-    <div className="py-12 bg-white lg:py-16">
+    <div className="py-12 mt-14 bg-white lg:py-16">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="mb-8 text-center lg:mb-12">
           <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
@@ -587,7 +587,7 @@ const HomePage = () => {
       <SubNavbar />
 
       {/* Hero Slider Section */}
-      <HeroSlider />
+      < HeroSlider />
 
       <InnovationIndicators />
       <ImpactSection />
