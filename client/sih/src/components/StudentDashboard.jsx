@@ -1706,12 +1706,12 @@ const StudentDashboard = () => {
               <h2 className="text-2xl font-bold text-white">Innovation Assessment Analysis</h2>
               <p className="text-purple-100">Track your performance across different innovation parameters</p>
             </div>
-            <button className="inline-flex items-center px-4 py-2 text-purple-600 bg-white rounded-lg transition-all duration-200 hover:bg-purple-50">
+            {/* <button className="inline-flex items-center px-4 py-2 text-purple-600 bg-white rounded-lg transition-all duration-200 hover:bg-purple-50">
               <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
               </svg>
               Take New Assessment
-            </button>
+            </button> */}
           </div>
         </div>
 
