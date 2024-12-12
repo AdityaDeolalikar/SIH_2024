@@ -3,17 +3,18 @@ import { useState, useEffect, useRef } from "react";
 import { BsBell, BsBellFill } from "react-icons/bs";
 import image from '../assets/images/image.png'
 import { FiUser, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import ApprovalAdd from "./dashboard/faculty/ApprovalAdd";
 import ChartCustomization from "./dashboard/faculty/ChartCustomization";
-import ExcellenceMetrics from "./dashboard/faculty/ExcellenceMetrics";
 import Mentorship from "./dashboard/faculty/Mentorship";
 import Leaderboard from "./dashboard/faculty/Leaderboard";
-import DashboardContent from "./dashboard/faculty/DashboardCount";
+import logo3 from '../assets/images/logo3.png';
+import logo4 from '../assets/images/logo4.png';
+import logo5 from '../assets/images/logo5.png';
 
 const FacultyDashboard = () => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const FacultyDashboard = () => {
   // Sidebar menu items
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: "📊" },
-    { id: "excellence", label: "Excellence Metrics", icon: "🎯" },
+    // { id: "excellence", label: "Excellence Metrics", icon: "🎯" },
     { id: "approval", label: "Approval & Add", icon: "✓" },
     { id: "mentorship", label: "Mentorship", icon: "👨‍🏫" },
     { id: "leaderboard", label: "Leaderboard", icon: "🏆" },
@@ -247,43 +248,42 @@ const FacultyDashboard = () => {
       id: 1,
       title: "Competition & Events",
       description: "Won Smart India Hackathon 2023 in Software Edition",
-      // image: "https://sih.gov.in/img/SIH2023-logo.png",
+      image: logo3,
       count: "15+ Awards",
     },
     {
       id: 2,
       title: "Research & Development",
       description: "Published 25 research papers in top-tier journals",
-      // image: "https://example.com/research.jpg",
+      image: logo4,
       count: "25+ Publications",
     },
     {
       id: 3,
       title: "Hackathon Triumphs",
       description: "Students secured top positions in national hackathons",
-      // image: "https://example.com/hackathon.jpg",
+      image: logo5,
       count: "10+ Wins",
     },
     {
       id: 4,
       title: "Certifications",
-      description:
-        "Students achieved professional certifications from leading organizations",
-      // image: "https://example.com/certifications.jpg",
+      description: "Students achieved professional certifications from leading organizations",
+      image: logo3,
       count: "100+ Certified",
     },
     {
       id: 5,
       title: "Patents Filed",
       description: "Innovation patents filed by students and faculty",
-      // image: "https://example.com/patents.jpg",
+      image: logo4,
       count: "8 Patents",
     },
     {
       id: 6,
       title: "Startup Success",
       description: "Student startups receiving significant funding",
-      // image: "https://example.com/startup.jpg",
+      image: logo5,
       count: "5 Startups",
     },
   ]);

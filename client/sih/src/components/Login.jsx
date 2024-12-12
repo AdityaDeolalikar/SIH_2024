@@ -147,97 +147,106 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="px-8 py-6 mt-4 w-full max-w-md bg-white rounded-xl shadow-2xl transform transition-all hover:scale-[1.01]">
-        <div className="flex justify-center mb-6 space-x-4">
-          <img src={logo} alt="Logo" className="w-auto h-12" />
-          <img src={logo2} alt="Logo 2" className="w-auto h-12" />
+    <div className="flex justify-center items-center px-4 py-8 min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md bg-white rounded-xl shadow-2xl transform transition-all hover:scale-[1.01]">
+        <div className="p-6 border-b border-gray-100">
+          <div className="flex flex-col items-center space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+            <div className="flex items-center space-x-3">
+              <img src={logo} alt="Logo" className="w-auto h-10 sm:h-12" />
+              <img src={logo2} alt="Logo 2" className="w-auto h-10 sm:h-12" />
+            </div>
+            <h1 className="text-2xl font-bold text-center text-gray-800 sm:text-3xl">
+              SRUJAN
+            </h1>
+          </div>
         </div>
 
-        <h3 className="mb-8 text-2xl font-bold text-center text-gray-800">
-          Welcome Back
-          <p className="mt-1 text-sm font-normal text-gray-600">
-            Please sign in to continue
-          </p>
-        </h3>
-
-        {error && (
-          <div className="p-3 mb-4 text-sm text-red-500 bg-red-100 rounded-lg">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={showOTP ? verifyOTP : requestOTP} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Role
-            </label>
-            <select
-              name="role"
-              value={formData.role}
-              onChange={handleChange}
-              className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="student">Student</option>
-              <option value="faculty">Faculty </option>
-              {/* <option value="Institute">Institute </option> */}
-              <option value="administrator">Administrator</option>
-              {/* <option value="Stackholders">Stackholders</option> */}
-            </select>
+        <div className="p-6 sm:p-8">
+          <div className="mb-6 text-center">
+            <h3 className="text-xl font-bold text-gray-800 sm:text-2xl">
+              Welcome Back
+            </h3>
+            <p className="mt-1 text-sm text-gray-600">
+              Please sign in to continue
+            </p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              name="phoneNumber"
-              placeholder="Enter your phone number"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              required
-              disabled={showOTP}
-            />
-          </div>
-
-          {showOTP && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Enter OTP
-              </label>
-              <input
-                type="text"
-                name="otp"
-                placeholder="Enter OTP"
-                value={formData.otp}
-                onChange={handleChange}
-                className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
+          {error && (
+            <div className="p-3 mb-4 text-sm text-red-500 bg-red-100 rounded-lg">
+              {error}
             </div>
           )}
 
-          <div className="flex justify-between items-center pt-4">
-            <button
-              type="submit"
-              disabled={loading}
-              className={`px-6 py-3 w-40 text-white bg-blue-600 rounded-lg transition-colors duration-200 ${
-                loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
-              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2`}
-            >
-              {loading ? "Please wait..." : showOTP ? "Verify OTP" : "Submit"}
-            </button>
-            <Link
-              to="/signup"
-              className="text-sm font-medium text-blue-600 transition-colors hover:text-blue-700 hover:underline"
-            >
-              Create an account
-            </Link>
-          </div>
-        </form>
-        <div id="recaptcha-container"></div>
+          <form onSubmit={showOTP ? verifyOTP : requestOTP} className="space-y-4">
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Role
+              </label>
+              <select
+                name="role"
+                value={formData.role}
+                onChange={handleChange}
+                className="px-3 py-2 w-full text-sm text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-base"
+              >
+                <option value="student">Student</option>
+                <option value="faculty">Faculty</option>
+                <option value="administrator">Administrator</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block mb-1 text-sm font-medium text-gray-700">
+                Phone Number
+              </label>
+              <input
+                type="tel"
+                name="phoneNumber"
+                placeholder="Enter your phone number"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                className="px-3 py-2 w-full text-sm text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-base"
+                required
+                disabled={showOTP}
+              />
+            </div>
+
+            {showOTP && (
+              <div>
+                <label className="block mb-1 text-sm font-medium text-gray-700">
+                  Enter OTP
+                </label>
+                <input
+                  type="text"
+                  name="otp"
+                  placeholder="Enter OTP"
+                  value={formData.otp}
+                  onChange={handleChange}
+                  className="px-3 py-2 w-full text-sm text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-base"
+                  required
+                />
+              </div>
+            )}
+
+            <div className="flex flex-col pt-4 space-y-4 sm:flex-row sm:justify-between sm:items-center sm:space-y-0">
+              <button
+                type="submit"
+                disabled={loading}
+                className={`w-full sm:w-auto px-6 py-2.5 text-white bg-blue-600 rounded-lg transition-colors duration-200 ${
+                  loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-sm sm:text-base`}
+              >
+                {loading ? "Please wait..." : showOTP ? "Verify OTP" : "Submit"}
+              </button>
+              <Link
+                to="/signup"
+                className="text-sm font-medium text-center text-blue-600 transition-colors hover:text-blue-700 hover:underline sm:text-base"
+              >
+                Create an account
+              </Link>
+            </div>
+          </form>
+          <div id="recaptcha-container"></div>
+        </div>
       </div>
     </div>
   );

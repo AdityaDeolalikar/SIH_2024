@@ -118,38 +118,32 @@ const HeroSlider = () => {
   }
 
   return (
-    <div className="relative h-screen bg-gradient-to-r from-blue-900 to-indigo-900">
+    <div className="relative h-[calc(100vh-8rem)] bg-gradient-to-r from-blue-900 to-indigo-900">
       <Slider {...settings} className="h-full">
         {slides.map((slide) => (
-          <div key={slide.id} className="h-screen outline-none">
-            <div className="flex h-full">
+          <div key={slide.id} className="h-full outline-none">
+            <div className="flex flex-col h-full lg:flex-row">
               {/* Image Half */}
-              <div className="overflow-hidden relative w-1/2 h-full">
+              <div className="relative w-full h-1/2 lg:h-full lg:w-1/2">
                 <div className="absolute inset-0 z-10 bg-gradient-to-r to-transparent from-blue-900/30" />
                 <img
                   src={slide.image}
                   alt={slide.title}
-                  className="object-cover object-center w-full h-full transition-transform duration-700 transform scale-110 group-hover:scale-105"
+                  className="object-cover object-center w-full h-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-l via-transparent to-transparent from-blue-900/50" />
               </div>
 
-              {/* Content Half - Adjusted padding and sizing for full viewport height */}
-              <div className="flex items-center px-20 w-1/2 h-full bg-gradient-to-l from-transparent to-blue-900/10">
-                <div className="space-y-8 max-w-2xl">
-                  <h2 className="text-5xl font-bold leading-tight text-white">
+              {/* Content Half */}
+              <div className="flex items-center px-6 py-8 w-full h-1/2 bg-gradient-to-l from-transparent to-blue-900/10 lg:h-full lg:w-1/2 lg:px-20">
+                <div className="space-y-4 max-w-2xl lg:space-y-8">
+                  <h2 className="text-3xl font-bold leading-tight text-white lg:text-5xl">
                     {slide.title}
                   </h2>
                   <div className="w-20 h-2 bg-blue-500 rounded-full" />
-                  <p className="text-xl leading-relaxed text-gray-200">
+                  <p className="text-base leading-relaxed text-gray-200 lg:text-xl">
                     {slide.description}
                   </p>
-                  {/* <button className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium 
-                    hover:bg-blue-700 transition-all duration-300 transform hover:translate-y-[-2px] 
-                    hover:shadow-lg active:translate-y-0 focus:outline-none focus:ring-2 
-                    focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-blue-900">
-                    Learn More
-                  </button> */}
                 </div>
               </div>
             </div>
@@ -217,13 +211,13 @@ const InnovationIndicators = () => {
   ];
 
   return (
-    <div className="py-16 bg-white">
+    <div className="py-12 bg-white lg:py-16">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+        <div className="mb-8 text-center lg:mb-12">
+          <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
             Key Innovation Indicators
           </h2>
-          <p className="mt-3 text-xl text-gray-500">
+          <p className="mt-3 text-lg text-gray-500 lg:text-xl">
             Tracking India's innovation ecosystem growth
           </p>
         </div>
@@ -232,7 +226,7 @@ const InnovationIndicators = () => {
           {indicators.map((indicator) => (
             <div
               key={indicator.id}
-              className="relative p-6 bg-white rounded-2xl border border-gray-100 shadow-xl transition-all duration-300 group hover:shadow-2xl hover:border-blue-500"
+              className="relative p-4 bg-white rounded-2xl border border-gray-100 shadow-xl transition-all duration-300 group hover:shadow-2xl hover:border-blue-500 lg:p-6"
             >
               <div className="flex justify-between items-center mb-4">
                 <div className="p-2 text-blue-600 bg-blue-50 rounded-lg transition-colors duration-300 group-hover:bg-blue-100">
@@ -314,19 +308,19 @@ const ImpactSection = () => {
   ];
 
   return (
-    <div className="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="py-12 bg-gradient-to-br from-gray-50 to-gray-100 lg:py-20">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
-          <h2 className="mb-4 text-4xl font-bold text-gray-900">
+        <div className="mb-12 text-center lg:mb-16">
+          <h2 className="mb-4 text-3xl font-bold text-gray-900 lg:text-4xl">
             Innovation Impact Metrics
           </h2>
           <div className="mx-auto mb-4 w-24 h-1 bg-blue-600 rounded-full"></div>
-          <p className="mx-auto max-w-3xl text-xl text-gray-600">
+          <p className="mx-auto max-w-3xl text-lg text-gray-600 lg:text-xl">
             Measuring the transformative power of innovation across different dimensions of society
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {impacts.map((impact, index) => (
             <div
               key={impact.category}
@@ -435,28 +429,28 @@ const RealWorldApplications = () => {
   ];
 
   return (
-    <div className="py-20 bg-white">
+    <div className="py-12 bg-white lg:py-20">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="mb-16 text-center">
+        <div className="mb-12 text-center lg:mb-16">
           <span className="px-3 py-1 text-sm font-semibold text-blue-600 bg-blue-50 rounded-full">
             Real World Impact
           </span>
-          <h2 className="mt-4 text-4xl font-bold text-gray-900">
+          <h2 className="mt-4 text-3xl font-bold text-gray-900 lg:text-4xl">
             Innovation in Action
           </h2>
-          <p className="mt-4 text-xl text-gray-600">
+          <p className="mt-4 text-lg text-gray-600 lg:text-xl">
             Discover how our innovation tracking system transforms ideas into real-world solutions
           </p>
         </div>
 
         {/* Applications Grid */}
-        <div className="space-y-16">
+        <div className="space-y-12 lg:space-y-16">
           {applications.map((app, index) => (
             <div 
               key={app.id}
-              className={`flex flex-col gap-8 lg:flex-row ${
-                index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+              className={`flex flex-col gap-8 ${
+                index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'
               }`}
             >
               {/* Image Section */}
@@ -465,11 +459,11 @@ const RealWorldApplications = () => {
                   <img 
                     src={app.image} 
                     alt={app.title}
-                    className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-105"
+                    className="object-cover w-full h-full"
                   />
                 </div>
                 {/* Metrics Overlay */}
-                <div className="grid absolute right-4 bottom-4 left-4 grid-cols-3 gap-4">
+                <div className="grid absolute right-4 bottom-4 left-4 grid-cols-3 gap-2 lg:gap-4">
                   <div className="p-4 text-center bg-white bg-opacity-90 rounded-lg shadow-lg backdrop-blur-lg">
                     <div className="text-2xl font-bold text-blue-600">{app.metrics.institutions}</div>
                     <div className="text-sm text-gray-600">Institutions</div>
@@ -561,26 +555,26 @@ const HomePage = () => {
                 <img 
                   src={logo} 
                   alt="Srujan Logo" 
-                  className="w-auto h-10"
+                  className="w-auto h-8 lg:h-10"
                 />
                 <img 
                   src={logo2} 
                   alt="Secondary Logo" 
-                  className="w-auto h-10"
+                  className="w-auto h-8 lg:h-10"
                 />
               </div>
-              <span className="text-3xl font-bold text-gray-800">SRUJAN</span>
+              <span className="text-2xl font-bold text-gray-800 lg:text-3xl">SRUJAN</span>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Link
                 to="/login"
-                className="px-4 py-2 text-gray-600 hover:text-gray-900"
+                className="px-3 py-2 text-sm text-gray-600 hover:text-gray-900 lg:px-4 lg:text-base"
               >
                 Login
               </Link>
               <Link
                 to="/signup"
-                className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
+                className="px-3 py-2 text-sm text-white bg-blue-600 rounded-md hover:bg-blue-700 lg:px-4 lg:text-base"
               >
                 Sign Up
               </Link>

@@ -8,7 +8,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerificationComp from "./dashboard/Verification";
 import axios from "axios";
-import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, PolarAngleAxis } from 'recharts';
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -91,6 +90,7 @@ const StudentDashboard = () => {
 
   const [selectedStat, setSelectedStat] = useState(null);
   const [showStatModal, setShowStatModal] = useState(false);
+  const [showAboutModal, setShowAboutModal] = useState(false);
 
   // Sidebar menu items
   const menuItems = [
@@ -347,18 +347,7 @@ const StudentDashboard = () => {
                 </p>
               </div>
               <div className="flex flex-wrap gap-3">
-                <button className="inline-flex items-center px-4 py-2 text-white rounded-lg transition-colors duration-200 bg-white/10 hover:bg-white/20">
-                  <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                  </svg>
-                  View Reports
-                </button>
-                <button className="inline-flex items-center px-4 py-2 text-blue-600 bg-white rounded-lg transition-colors duration-200 hover:bg-blue-50">
-                  <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                  </svg>
-                  New Project
-                </button>
+                
               </div>
             </div>
           </div>
@@ -407,11 +396,11 @@ const StudentDashboard = () => {
           <div className="p-6 bg-white rounded-xl shadow-sm">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-gray-800">Innovation Progress</h2>
-              <select className="text-sm rounded-lg border-gray-200 focus:ring-blue-500">
+              {/* <select className="text-sm rounded-lg border-gray-200 focus:ring-blue-500">
                 <option>This Month</option>
                 <option>Last Quarter</option>
                 <option>This Year</option>
-              </select>
+              </select> */}
             </div>
             <div className="space-y-6">
               {[
@@ -442,9 +431,9 @@ const StudentDashboard = () => {
           <div className="p-6 bg-white rounded-xl shadow-sm">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-gray-800">Recent Activity</h2>
-              <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
+              {/* <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
                 View All
-              </button>
+              </button> */}
             </div>
             <div className="space-y-6">
               {[
@@ -490,9 +479,9 @@ const StudentDashboard = () => {
           <div className="p-6 bg-white rounded-xl shadow-sm">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-gray-800">Upcoming Events</h2>
-              <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
+              {/* <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
                 View Calendar
-              </button>
+              </button> */}
             </div>
             <div className="space-y-4">
               {[
@@ -543,9 +532,9 @@ const StudentDashboard = () => {
           <div className="p-6 bg-white rounded-xl shadow-sm">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-gray-800">Recommended for You</h2>
-              <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
+              {/* <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
                 View All
-              </button>
+              </button> */}
             </div>
             <div className="space-y-4">
               {[
@@ -1707,14 +1696,6 @@ const StudentDashboard = () => {
     );
   };
 
-  const skillsData = [
-    { name: 'Problem Solving', value: 92, fill: '#8884d8' },
-    { name: 'Critical Thinking', value: 88, fill: '#83a6ed' },
-    { name: 'Innovation Design', value: 85, fill: '#8dd1e1' },
-    { name: 'Market Analysis', value: 78, fill: '#82ca9d' },
-    { name: 'Technical Knowledge', value: 90, fill: '#a4de6c' }
-  ];
-
   const renderTestAnalysisContent = () => {
     return (
       <div className="space-y-8">
@@ -1734,51 +1715,8 @@ const StudentDashboard = () => {
           </div>
         </div>
 
-        {/* Performance Overview with Radial Chart */}
+        {/* Performance Overview */}
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="p-6 bg-white rounded-xl shadow-sm md:col-span-2">
-            <h3 className="mb-6 text-lg font-semibold text-gray-900">Skills Overview</h3>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <RadialBarChart 
-                  cx="50%" 
-                  cy="50%" 
-                  innerRadius="20%" 
-                  outerRadius="90%" 
-                  barSize={20} 
-                  data={skillsData}
-                >
-                  <PolarAngleAxis
-                    type="number"
-                    domain={[0, 100]}
-                    angleAxisId={0}
-                    tick={false}
-                  />
-                  <RadialBar
-                    background
-                    dataKey="value"
-                    angleAxisId={0}
-                    label={{ 
-                      position: 'insideStart',
-                      fill: '#fff',
-                      fontWeight: 'bold'
-                    }}
-                  />
-                  <Legend
-                    iconSize={10}
-                    layout="vertical"
-                    verticalAlign="middle"
-                    align="right"
-                    wrapperStyle={{
-                      paddingLeft: '10px'
-                    }}
-                  />
-                </RadialBarChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Overall Score Card */}
           <div className="p-6 bg-white rounded-xl shadow-sm">
             <div className="flex justify-between items-start mb-4">
               <div>
@@ -1794,55 +1732,19 @@ const StudentDashboard = () => {
               <div className="h-full w-[85.6%] bg-purple-600 rounded-full"></div>
             </div>
           </div>
-        </div>
 
-        {/* Progress Cards */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Tests Progress */}
+          {/* Tests Completed */}
           <div className="p-6 bg-white rounded-xl shadow-sm">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Assessment Progress</h3>
-              <select className="px-3 py-1 text-sm rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500">
-                <option>This Month</option>
-                <option>Last 3 Months</option>
-                <option>Last 6 Months</option>
-              </select>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 bg-purple-50 rounded-lg">
-                <h4 className="text-sm font-medium text-purple-700">Completed</h4>
-                <p className="mt-2 text-2xl font-bold text-purple-900">12</p>
-                <p className="text-sm text-purple-600">Out of 15 tests</p>
-              </div>
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h4 className="text-sm font-medium text-green-700">Success Rate</h4>
-                <p className="mt-2 text-2xl font-bold text-green-900">86%</p>
-                <p className="text-sm text-green-600">+5% from last month</p>
-              </div>
-            </div>
+            <h3 className="mb-4 text-lg font-semibold text-gray-900">Tests Completed</h3>
+            <div className="mb-2 text-3xl font-bold text-gray-900">12</div>
+            <p className="text-sm text-gray-500">Out of 15 available tests</p>
           </div>
 
-          {/* Next Assessments */}
+          {/* Next Assessment */}
           <div className="p-6 bg-white rounded-xl shadow-sm">
-            <h3 className="mb-6 text-lg font-semibold text-gray-900">Upcoming Assessments</h3>
-            <div className="space-y-4">
-              {[
-                { title: 'Design Thinking', date: '2024-03-01', type: 'Required' },
-                { title: 'Patent Writing', date: '2024-03-05', type: 'Optional' }
-              ].map((test, idx) => (
-                <div key={idx} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
-                  <div>
-                    <h4 className="font-medium text-gray-900">{test.title}</h4>
-                    <p className="text-sm text-gray-500">Due: {test.date}</p>
-                  </div>
-                  <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${
-                    test.type === 'Required' ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'
-                  }`}>
-                    {test.type}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <h3 className="mb-4 text-lg font-semibold text-gray-900">Next Assessment</h3>
+            <div className="mb-2 text-xl font-medium text-gray-900">Innovation Strategy</div>
+            <p className="text-sm text-gray-500">Available in 2 days</p>
           </div>
         </div>
 
@@ -1902,6 +1804,61 @@ const StudentDashboard = () => {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const AboutModal = ({ onClose }) => {
+    return (
+      <div className="flex fixed inset-0 z-50 justify-center items-center bg-black bg-opacity-50">
+        <div className="relative w-full max-w-2xl bg-white rounded-xl shadow-lg">
+          {/* Header */}
+          <div className="flex justify-between items-center p-4 border-b">
+            <h3 className="text-xl font-semibold text-gray-900">About Srujan</h3>
+            <button 
+              onClick={onClose}
+              className="p-1 text-gray-400 transition-colors hover:text-gray-500"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="p-6 max-h-[70vh] overflow-y-auto">
+            <div className="max-w-none prose">
+              <p className="mb-4">
+                Welcome to Srujan - India's Premier Innovation Tracking Platform
+              </p>
+              
+              Terms and Conditions and Privacy Policy for Importing Data
+
+By clicking "Import Data" to access and import information from existing systems (including patents, research papers, project details, startup ideas, innovation concepts, and other intellectual property-related materials) into the Innovation Excellence Portal, you agree to the following terms and conditions:
+
+Data Ownership and Access Rights
+You acknowledge that all imported data, including patents, research papers, project details, startup ideas, and innovation concepts, remain the intellectual property of their respective owners. You confirm that you have the necessary rights and permissions to access and import this data into the Innovation Excellence Portal.
+
+Use of Data
+The data imported will be used solely within the Innovation Excellence Portal for purposes related to tracking, showcasing, and measuring innovation excellence. Unauthorized distribution, modification, or commercial use of this data is strictly prohibited.
+
+Confidentiality and Security
+You agree to maintain the confidentiality of all imported data. The platform will take appropriate measures to protect the data’s privacy and integrity, ensuring it is only used for the intended purposes. However, you acknowledge that the security of the imported data is ultimately your responsibility.
+
+Prohibited Activities
+By importing the data, you confirm that you will not misuse or share the data in any way that would violate intellectual property laws, ethical standards, or the rights of the original creators. Any violation of these terms may result in immediate suspension of access to the portal and legal action if necessary.
+
+Privacy and Data Protection
+The data imported will be handled in compliance with applicable privacy laws and regulations. Any personal or sensitive information will be processed in accordance with our Privacy Policy, and we will ensure that it is used only for the purposes of enhancing innovation excellence tracking and reporting.
+
+Liability
+You agree to assume full responsibility for the data you import and its use within the Innovation Excellence Portal. The portal administrators are not responsible for any legal issues, privacy violations, or unauthorized use of the data.
+
+Agreement
+By clicking "Import Data," you confirm that you have read, understood, and agree to comply with the terms and conditions outlined above. If you do not agree with these terms, you will not be able to proceed with the data import process.
             </div>
           </div>
         </div>
@@ -1993,6 +1950,14 @@ const StudentDashboard = () => {
                 </h1>
               </div>
               <div className="flex items-center space-x-6">
+                {/* About Us Link */}
+                <button
+                  onClick={() => setShowAboutModal(true)}
+                  className="text-sm text-white transition-colors hover:text-blue-200"
+                >
+                  Guidelines
+                </button>
+
                 {/* Language Selector */}
                 <div className="relative">
                   <select
@@ -2041,6 +2006,10 @@ const StudentDashboard = () => {
             setShowStatModal(false);
           }} 
         />
+      )}
+
+      {showAboutModal && (
+        <AboutModal onClose={() => setShowAboutModal(false)} />
       )}
     </div>
   );

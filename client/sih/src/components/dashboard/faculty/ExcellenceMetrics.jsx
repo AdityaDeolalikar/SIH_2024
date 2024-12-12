@@ -35,10 +35,10 @@ const ApprovalAdd = () => {
 
   return (
     <div className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Pending Approvals</h2>
+      <h2 className="mb-6 text-2xl font-bold">Pending Approvals</h2>
       <div className="grid gap-6">
         {pendingAchievements.map((achievement) => (
-          <div key={achievement._id} className="bg-white rounded-lg shadow p-6">
+          <div key={achievement._id} className="p-6 bg-white rounded-lg shadow">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-xl font-semibold">
@@ -55,7 +55,7 @@ const ApprovalAdd = () => {
                   onClick={() =>
                     handleStatusUpdate(achievement._id, "Approved")
                   }
-                  className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                  className="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600"
                 >
                   Approve
                 </button>
@@ -63,7 +63,7 @@ const ApprovalAdd = () => {
                   onClick={() =>
                     handleStatusUpdate(achievement._id, "Rejected")
                   }
-                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                  className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
                 >
                   Reject
                 </button>
