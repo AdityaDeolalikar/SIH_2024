@@ -180,9 +180,9 @@ const Login = () => {
             >
               <option value="student">Student</option>
               <option value="faculty">Faculty </option>
-              <option value="Institute">Institute </option>
+              {/* <option value="Institute">Institute </option> */}
               <option value="administrator">Administrator</option>
-              <option value="Stackholders">Stackholders</option>
+              {/* <option value="Stackholders">Stackholders</option> */}
             </select>
           </div>
 

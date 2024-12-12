@@ -16,6 +16,7 @@ const VerificationComp = () => {
     description: "",
     applicationImpact: "",
     innovatorNames: "",
+    achievementType: "",
     // Common fields
     Date: "",
   });
@@ -23,6 +24,7 @@ const VerificationComp = () => {
   const innovationTypes = ["Patent", "Research Paper", "Project", "Startup"];
   const domains = ["AI/ML", "Web Development", "IoT", "Blockchain", "Other"];
   const categories = ["Technical", "Non Technical"];
+  const achievementTypes = ["Cultural", "Sports", "Social Work", "Leadership", "Other"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,6 +62,7 @@ const VerificationComp = () => {
           description: "",
           applicationImpact: "",
           innovatorNames: "",
+          achievementType: "",
           Date: "",
         });
         alert("Achievement submitted successfully!");
@@ -76,13 +79,13 @@ const VerificationComp = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Add New Achievement</h1>
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <h1 className="mb-6 text-3xl font-bold">Add New Achievement</h1>
+      <div className="p-6 bg-white rounded-lg shadow-lg">
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 gap-6">
             {/* Category Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block mb-1 text-sm font-medium text-gray-700">
                 Achievement Category *
               </label>
               <select
@@ -90,7 +93,7 @@ const VerificationComp = () => {
                 value={achievementData.category}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
                 <option value="">Select Category</option>
                 {categories.map((category) => (
@@ -105,7 +108,7 @@ const VerificationComp = () => {
             {achievementData.category === "Technical" && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Innovation Type *
                   </label>
                   <select
@@ -113,7 +116,7 @@ const VerificationComp = () => {
                     value={achievementData.innovationIndicator}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Select Innovation Type</option>
                     {innovationTypes.map((type) => (
@@ -125,7 +128,7 @@ const VerificationComp = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Founder Name *
                   </label>
                   <input
@@ -134,12 +137,12 @@ const VerificationComp = () => {
                     value={achievementData.Founder}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Publisher Name
                   </label>
                   <input
@@ -147,12 +150,12 @@ const VerificationComp = () => {
                     name="publisherName"
                     value={achievementData.publisherName}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Mentor Details
                   </label>
                   <textarea
@@ -160,13 +163,13 @@ const VerificationComp = () => {
                     value={achievementData.mentorDetails}
                     onChange={handleChange}
                     rows="3"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter mentor's name and details"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Domain *
                   </label>
                   <select
@@ -174,7 +177,7 @@ const VerificationComp = () => {
                     value={achievementData.Domain}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="">Select Domain</option>
                     {domains.map((domain) => (
@@ -186,7 +189,7 @@ const VerificationComp = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Platform Name
                   </label>
                   <input
@@ -194,7 +197,7 @@ const VerificationComp = () => {
                     name="nameOfPlatform"
                     value={achievementData.nameOfPlatform}
                     onChange={handleChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter the platform name"
                   />
                 </div>
@@ -205,7 +208,27 @@ const VerificationComp = () => {
             {achievementData.category === "Non Technical" && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
+                    Achievement Type *
+                  </label>
+                  <select
+                    name="achievementType"
+                    value={achievementData.achievementType}
+                    onChange={handleChange}
+                    required
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Select Achievement Type</option>
+                    {achievementTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Innovation Title *
                   </label>
                   <input
@@ -214,12 +237,12 @@ const VerificationComp = () => {
                     value={achievementData.innovationTitle}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Description of the Innovation *
                   </label>
                   <textarea
@@ -228,12 +251,12 @@ const VerificationComp = () => {
                     onChange={handleChange}
                     required
                     rows="3"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Application/Impact *
                   </label>
                   <textarea
@@ -242,12 +265,12 @@ const VerificationComp = () => {
                     onChange={handleChange}
                     required
                     rows="3"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
                     Innovator Name(s) *
                   </label>
                   <input
@@ -256,7 +279,7 @@ const VerificationComp = () => {
                     value={achievementData.innovatorNames}
                     onChange={handleChange}
                     required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </>
@@ -265,7 +288,7 @@ const VerificationComp = () => {
             {/* Common Fields */}
             {achievementData.category && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block mb-1 text-sm font-medium text-gray-700">
                   Date *
                 </label>
                 <input
@@ -274,7 +297,7 @@ const VerificationComp = () => {
                   value={achievementData.Date}
                   onChange={handleChange}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-3 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
             )}
@@ -283,7 +306,7 @@ const VerificationComp = () => {
               <div>
                 <button
                   type="submit"
-                  className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                  className="px-6 py-2 w-full font-medium text-white bg-blue-600 rounded-md transition-colors md:w-auto hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                   Submit Achievement
                 </button>
