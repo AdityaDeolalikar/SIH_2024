@@ -350,7 +350,7 @@ const Signup = () => {
                     name="programName"
                     value={formData.programName}
                     onChange={handleInputChange}
-                    // required
+                    required
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -378,7 +378,7 @@ const Signup = () => {
                     name="dateOfBirth"
                     value={formData.dateOfBirth}
                     onChange={handleInputChange}
-                    // required
+                    required
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -456,7 +456,7 @@ const Signup = () => {
                     name="experience"
                     value={formData.experience}
                     onChange={handleInputChange}
-                    // required
+                    required
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -484,7 +484,7 @@ const Signup = () => {
                     name="specialization"
                     value={formData.specialization}
                     onChange={handleInputChange}
-                    // required
+                    required
                     className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                 </div>
