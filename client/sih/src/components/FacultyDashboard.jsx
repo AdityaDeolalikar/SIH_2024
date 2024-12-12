@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import { BsBell, BsBellFill } from "react-icons/bs";
+import image from '../assets/images/image.png'
 import { FiUser, FiSettings, FiHelpCircle, FiLogOut } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -144,13 +145,13 @@ const FacultyDashboard = () => {
         </button>
 
         {showNotifications && (
-          <div className="absolute right-0 w-80 mt-2 bg-white rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 z-50 mt-2 w-80 bg-white rounded-lg shadow-lg">
             <div className="p-4 border-b border-gray-100">
               <h3 className="text-lg font-semibold text-gray-900">
                 Notifications
               </h3>
             </div>
-            <div className="max-h-96 overflow-y-auto">
+            <div className="overflow-y-auto max-h-96">
               {notifications.map((notification) => (
                 <div
                   key={notification.id}
@@ -177,13 +178,13 @@ const FacultyDashboard = () => {
           onClick={() => setShowProfileMenu(!showProfileMenu)}
           className="flex items-center space-x-3 focus:outline-none"
         >
-          <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
+          <div className="flex justify-center items-center w-8 h-8 bg-gray-300 rounded-full">
             <FiUser className="w-5 h-5 text-gray-600" />
           </div>
         </button>
 
         {showProfileMenu && (
-          <div className="absolute right-0 w-48 mt-2 bg-white rounded-lg shadow-lg z-50">
+          <div className="absolute right-0 z-50 mt-2 w-48 bg-white rounded-lg shadow-lg">
             {profileMenuItems.map((item, index) => (
               <button
                 key={index}
@@ -204,12 +205,12 @@ const FacultyDashboard = () => {
 
   // Add this new state for institute details
   const [instituteDetails] = useState({
-    name: "Indian Institute of Technology Bombay",
-    code: "IITB123",
+    name: "All India Institute of Ayurveda",
+    code: "AIIA123",
     rank: "#1 in Innovation",
     university: "Autonomous Institute",
-    image:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/IIT_Bombay_Logo.svg/1200px-IIT_Bombay_Logo.svg.png", // Replace with your image path
+    // image:
+    //   "client\sih\src\assets\images\image.png", // Replace with your image path
   });
 
   // Add this state for innovation metrics
@@ -317,36 +318,36 @@ const FacultyDashboard = () => {
 
     return (
       <div className="mt-8">
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        <div className="p-6 bg-white rounded-xl shadow-sm">
+          <h2 className="mb-6 text-2xl font-bold text-gray-800">
             Highlights & Achievements
           </h2>
-          <Slider {...settings} className="achievement-slider -mx-2">
+          <Slider {...settings} className="-mx-2 achievement-slider">
             {achievements.map((achievement) => (
               <div key={achievement.id} className="px-2">
-                <div className="bg-gradient-to-br from-white to-gray-50 rounded-xl shadow-sm border border-gray-100 p-6 h-full transition-transform hover:scale-105">
-                  <div className="aspect-video mb-4 overflow-hidden rounded-lg bg-gray-100">
+                <div className="p-6 h-full bg-gradient-to-br from-white to-gray-50 rounded-xl border border-gray-100 shadow-sm transition-transform hover:scale-105">
+                  <div className="overflow-hidden mb-4 bg-gray-100 rounded-lg aspect-video">
                     <img
                       src={achievement.image}
                       alt={achievement.title}
-                      className="w-full h-full object-cover"
+                      className="object-cover w-full h-full"
                       onError={(e) => {
                         e.target.src =
                           "https://via.placeholder.com/400x225?text=Achievement";
                       }}
                     />
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  <h3 className="mb-2 text-xl font-semibold text-gray-800">
                     {achievement.title}
                   </h3>
-                  <p className="text-gray-600 mb-4">
+                  <p className="mb-4 text-gray-600">
                     {achievement.description}
                   </p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                  <div className="flex justify-between items-center">
+                    <span className="px-3 py-1 text-sm font-medium text-blue-600 bg-blue-50 rounded-full">
                       {achievement.count}
                     </span>
-                    <button className="text-sm text-blue-600 hover:text-blue-700 font-medium">
+                    <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
                       View Details →
                     </button>
                   </div>
@@ -362,14 +363,14 @@ const FacultyDashboard = () => {
   // Add this to your renderDashboardContent function, after the existing grid
   const renderInnovationMetrics = () => {
     return (
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 gap-8 mt-8 lg:grid-cols-2">
         {/* Key Innovation Indicators */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">
+        <div className="p-6 bg-white rounded-xl shadow-sm">
+          <h2 className="mb-6 text-2xl font-bold text-gray-800">
             Key Innovation Indicators
           </h2>
           <div className="grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-lg bg-blue-50 border border-blue-100">
+            <div className="p-4 bg-blue-50 rounded-lg border border-blue-100">
               <h3 className="text-lg font-semibold text-blue-700">
                 Research Papers
               </h3>
@@ -377,13 +378,13 @@ const FacultyDashboard = () => {
                 {innovationMetrics.research}
               </div>
             </div>
-            <div className="p-4 rounded-lg bg-green-50 border border-green-100">
+            <div className="p-4 bg-green-50 rounded-lg border border-green-100">
               <h3 className="text-lg font-semibold text-green-700">Patents</h3>
               <div className="mt-2 text-3xl font-bold text-green-600">
                 {innovationMetrics.patents}
               </div>
             </div>
-            <div className="p-4 rounded-lg bg-yellow-50 border border-yellow-100">
+            <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-100">
               <h3 className="text-lg font-semibold text-yellow-700">
                 Startups
               </h3>
@@ -391,13 +392,13 @@ const FacultyDashboard = () => {
                 {innovationMetrics.startups}
               </div>
             </div>
-            <div className="p-4 rounded-lg bg-purple-50 border border-purple-100">
+            <div className="p-4 bg-purple-50 rounded-lg border border-purple-100">
               <h3 className="text-lg font-semibold text-purple-700">Grants</h3>
               <div className="mt-2 text-3xl font-bold text-purple-600">
                 {innovationMetrics.grants}
               </div>
             </div>
-            <div className="p-4 rounded-lg bg-pink-50 border border-pink-100">
+            <div className="p-4 bg-pink-50 rounded-lg border border-pink-100">
               <h3 className="text-lg font-semibold text-pink-700">Awards</h3>
               <div className="mt-2 text-3xl font-bold text-pink-600">85</div>
             </div>
@@ -405,7 +406,7 @@ const FacultyDashboard = () => {
         </div>
 
         {/* Monthly Progress Chart */}
-        <div className="bg-white rounded-xl shadow-sm p-6">
+        <div className="p-6 bg-white rounded-xl shadow-sm">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-800">
               Monthly Progress
@@ -500,19 +501,19 @@ const FacultyDashboard = () => {
   const renderDashboardContent = () => {
     return (
       <>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Institute Details Card */}
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <div className="flex flex-col md:flex-row gap-6">
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <div className="flex flex-col gap-6 md:flex-row">
               <div className="w-full md:w-1/3">
                 <img
-                  src={instituteDetails.image}
+                  src={image}
                   alt="Institute Logo"
-                  className="w-full h-auto rounded-lg object-contain"
+                  className="object-contain w-full h-auto rounded-lg"
                 />
               </div>
               <div className="w-full md:w-2/3">
-                <h2 className="text-2xl font-bold text-gray-800 mb-4">
+                <h2 className="mb-4 text-2xl font-bold text-gray-800">
                   Institute Details
                 </h2>
                 <div className="space-y-4">
@@ -554,11 +555,11 @@ const FacultyDashboard = () => {
           </div>
 
           {/* Innovation Excellence Indicator */}
-          <div className="bg-white rounded-xl shadow-sm p-6">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">
               Innovation Excellence Indicator
             </h2>
-            <div className="relative w-64 h-64 mx-auto">
+            <div className="relative mx-auto w-64 h-64">
               {/* Circular Progress Indicators */}
               <div className="absolute inset-0">
                 <svg className="w-full h-full transform -rotate-90">
@@ -616,7 +617,7 @@ const FacultyDashboard = () => {
               </div>
 
               {/* Center Text */}
-              <div className="absolute inset-0 flex items-center justify-center">
+              <div className="flex absolute inset-0 justify-center items-center">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-gray-800">
                     {innovationMetrics.overall}
@@ -627,27 +628,27 @@ const FacultyDashboard = () => {
             </div>
 
             {/* Legend */}
-            <div className="mt-8 grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 mt-8">
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
+                <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
                 <span className="text-sm text-gray-600">
                   Patents ({innovationMetrics.patents})
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
                 <span className="text-sm text-gray-600">
                   Research ({innovationMetrics.research})
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
                 <span className="text-sm text-gray-600">
                   Startups ({innovationMetrics.startups})
                 </span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-3 h-3 rounded-full bg-purple-500"></div>
+                <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
                 <span className="text-sm text-gray-600">
                   Projects ({innovationMetrics.projects})
                 </span>

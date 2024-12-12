@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import VerificationComp from "./dashboard/Verification";
 import axios from "axios";
+import { RadialBarChart, RadialBar, Legend, ResponsiveContainer, PolarAngleAxis } from 'recharts';
 
 const StudentDashboard = () => {
   const navigate = useNavigate();
@@ -88,6 +89,9 @@ const StudentDashboard = () => {
     { id: 10, name: "DTU Delhi", innovationIndex: 84.6 },
   ]);
 
+  const [selectedStat, setSelectedStat] = useState(null);
+  const [showStatModal, setShowStatModal] = useState(false);
+
   // Sidebar menu items
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: "📊" },
@@ -95,6 +99,7 @@ const StudentDashboard = () => {
     { id: "achievements", label: "Excellence metrics", icon: "🏆" },
     { id: "verification", label: "Verification", icon: "✓" },
     { id: "team", label: "Team", icon: "👥" },
+    { id: "test-analysis", label: "Test Analysis", icon: "📈" },
     { id: "communities", label: "Leaderboard", icon: "🌐" },
   ];
 
@@ -328,196 +333,250 @@ const StudentDashboard = () => {
   const renderDashboardContent = () => {
     return (
       <div className="space-y-8">
-        {/* Statistics Overview */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
+        {/* Welcome Banner */}
+        <div className="overflow-hidden relative bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-lg">
+          <div className="absolute inset-0 bg-grid-white/10"></div>
+          <div className="relative p-8 md:p-12">
+            <div className="flex flex-col gap-6 justify-between items-start md:flex-row md:items-center">
+              <div className="space-y-4">
+                <h1 className="text-3xl font-bold text-white">
+                  Welcome back, {user?.fullName || "Innovator"} 👋
+                </h1>
+                <p className="max-w-2xl text-blue-100">
+                  Track your innovation journey, manage projects, and explore new opportunities. Your current innovation score is <span className="font-semibold">850</span>
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <button className="inline-flex items-center px-4 py-2 text-white rounded-lg transition-colors duration-200 bg-white/10 hover:bg-white/20">
+                  <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                  View Reports
+                </button>
+                <button className="inline-flex items-center px-4 py-2 text-blue-600 bg-white rounded-lg transition-colors duration-200 hover:bg-blue-50">
+                  <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                  </svg>
+                  New Project
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Stats Grid */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
           {statistics.map((stat, index) => (
             <div
               key={index}
-              className="p-6 bg-white rounded-sm transition-all duration-300 shadow-custom hover:shadow-custom-hover"
+              className="p-6 bg-white rounded-xl shadow-sm transition-all duration-300 cursor-pointer hover:shadow-md"
+              onClick={() => {
+                setSelectedStat(stat);
+                setShowStatModal(true);
+              }}
             >
-              <div className="flex justify-between items-center">
-                <span className="text-3xl">{stat.icon}</span>
-                <span className="text-2xl font-bold text-gray-900">
-                  {stat.count}
-                </span>
+              <div className="flex justify-between items-center mb-4">
+                <div className={`p-3 rounded-xl ${
+                  index % 4 === 0 ? 'bg-blue-50 text-blue-600' :
+                  index % 4 === 1 ? 'bg-purple-50 text-purple-600' :
+                  index % 4 === 2 ? 'bg-green-50 text-green-600' :
+                  'bg-amber-50 text-amber-600'
+                }`}>
+                  <span className="text-2xl">{stat.icon}</span>
+                </div>
+                <div className={`px-2.5 py-1 text-sm font-medium rounded-full ${
+                  index % 2 === 0 ? 'bg-green-50 text-green-600' : 'bg-blue-50 text-blue-600'
+                }`}>
+                  +{Math.floor(Math.random() * 30)}%
+                </div>
               </div>
-              <h3 className="mt-4 text-sm font-medium text-gray-600">
+              <h3 className="mb-2 text-lg font-semibold text-gray-700">
                 {stat.title}
               </h3>
+              <div className="flex gap-2 items-baseline">
+                <span className="text-3xl font-bold text-gray-900">{stat.count}</span>
+                <span className="text-sm text-gray-500">total</span>
+              </div>
             </div>
           ))}
         </div>
 
-        {/* Recent Activity */}
-        <div className="p-6 bg-white rounded-sm transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-          <h2 className="mb-4 text-xl font-semibold text-gray-900">
-            Recent Activity
-          </h2>
-          <div className="space-y-4">
-            <div className="flex items-center p-4 space-x-4 bg-gray-50 rounded-lg">
-              <div className="flex flex-shrink-0 justify-center items-center w-10 h-10 bg-blue-100 rounded-full">
-                <span className="text-lg text-blue-600">📝</span>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-900">
-                  Project Submission
-                </p>
-                <p className="text-sm text-gray-500">
-                  Submitted final project report
-                </p>
-              </div>
-              <span className="ml-auto text-xs text-gray-500">2 hours ago</span>
+        {/* Main Content Grid */}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          {/* Innovation Progress */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">Innovation Progress</h2>
+              <select className="text-sm rounded-lg border-gray-200 focus:ring-blue-500">
+                <option>This Month</option>
+                <option>Last Quarter</option>
+                <option>This Year</option>
+              </select>
             </div>
-            <div className="flex items-center p-4 space-x-4 bg-gray-50 rounded-lg">
-              <div className="flex flex-shrink-0 justify-center items-center w-10 h-10 bg-green-100 rounded-full">
-                <span className="text-lg text-green-600">🏆</span>
-              </div>
-              <div>
-                <p className="text-sm font-medium text-gray-900">
-                  Achievement Unlocked
-                </p>
-                <p className="text-sm text-gray-500">
-                  Earned Innovation Champion badge
-                </p>
-              </div>
-              <span className="ml-auto text-xs text-gray-500">1 day ago</span>
+            <div className="space-y-6">
+              {[
+                { label: 'Research Papers', progress: 75, total: 15, color: 'blue' },
+                { label: 'Patents Filed', progress: 45, total: 8, color: 'green' },
+                { label: 'Projects', progress: 60, total: 12, color: 'purple' }
+              ].map((item, idx) => (
+                <div key={idx} className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <span className="text-sm font-medium text-gray-700">{item.label}</span>
+                      <span className="ml-2 text-sm text-gray-400">({item.total})</span>
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">{item.progress}%</span>
+                  </div>
+                  <div className="overflow-hidden h-2 bg-gray-100 rounded-full">
+                    <div
+                      className={`h-full rounded-full bg-${item.color}-600`}
+                      style={{ width: `${item.progress}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Personalized Recommendations */}
-        <div className="p-6 bg-white rounded-sm transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-          <div className="flex justify-between items-center mb-6">
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900">
-                Personalized Recommendations
-              </h2>
-              <p className="mt-1 text-sm text-gray-500">
-                Opportunities matching your profile and interests
-              </p>
+          {/* Recent Activity */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">Recent Activity</h2>
+              <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
+                View All
+              </button>
             </div>
-            <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
-              View All
-            </button>
+            <div className="space-y-6">
+              {[
+                {
+                  icon: "🎯",
+                  title: "Project Milestone Achieved",
+                  desc: "Completed phase 1 of AI research project",
+                  time: "2 hours ago",
+                  color: "blue"
+                },
+                {
+                  icon: "📝",
+                  title: "Research Paper Submitted",
+                  desc: "Submitted to International Journal of Innovation",
+                  time: "1 day ago",
+                  color: "green"
+                },
+                {
+                  icon: "🏆",
+                  title: "Achievement Unlocked",
+                  desc: "Received Innovation Excellence Badge",
+                  time: "2 days ago",
+                  color: "purple"
+                }
+              ].map((activity, idx) => (
+                <div key={idx} className="flex gap-4 items-start p-4 rounded-lg transition-colors hover:bg-gray-50">
+                  <div className={`flex-shrink-0 p-3 rounded-xl bg-${activity.color}-50`}>
+                    <span className="text-2xl">{activity.icon}</span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-900">{activity.title}</p>
+                    <p className="text-sm text-gray-500">{activity.desc}</p>
+                  </div>
+                  <div className="flex-shrink-0 text-xs text-gray-400">
+                    {activity.time}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {/* Research Papers */}
-            <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-              <div className="flex items-center mb-3 space-x-3">
-                <span className="text-2xl">📚</span>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Research Papers
-                </h3>
-              </div>
-              <p className="mb-4 text-sm text-gray-600">
-                Call for papers in International Journal of AI & ML
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-500">
-                  Deadline: 15 Mar 2024
-                </span>
-                <button className="px-3 py-1 text-sm text-blue-600 bg-white rounded-lg hover:bg-blue-50">
-                  Learn More
-                </button>
-              </div>
+          {/* Upcoming Events */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">Upcoming Events</h2>
+              <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
+                View Calendar
+              </button>
             </div>
-
-            {/* Certifications & Grants */}
-            <div className="p-4 bg-gradient-to-br from-green-50 to-green-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-              <div className="flex items-center mb-3 space-x-3">
-                <span className="text-2xl">🎓</span>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Certification
-                </h3>
-              </div>
-              <p className="mb-4 text-sm text-gray-600">
-                AWS Cloud Practitioner Certification Program
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-500">
-                  100% Scholarship Available
-                </span>
-                <button className="px-3 py-1 text-sm text-green-600 bg-white rounded-lg hover:bg-green-50">
-                  Apply Now
-                </button>
-              </div>
+            <div className="space-y-4">
+              {[
+                {
+                  title: "Innovation Workshop",
+                  date: "Mar 15",
+                  time: "10:00 AM",
+                  type: "Workshop",
+                  color: "blue"
+                },
+                {
+                  title: "Project Presentation",
+                  date: "Mar 18",
+                  time: "2:30 PM",
+                  type: "Presentation",
+                  color: "green"
+                },
+                {
+                  title: "Hackathon 2024",
+                  date: "Mar 20",
+                  time: "9:00 AM",
+                  type: "Competition",
+                  color: "purple"
+                }
+              ].map((event, idx) => (
+                <div key={idx} className="flex gap-4 items-center p-4 rounded-lg transition-colors hover:bg-gray-50">
+                  <div className="text-center min-w-[60px]">
+                    <p className="text-sm font-semibold text-gray-900">{event.date}</p>
+                    <p className="text-xs text-gray-500">{event.time}</p>
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-gray-900">{event.title}</p>
+                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-${event.color}-50 text-${event.color}-700`}>
+                      {event.type}
+                    </span>
+                  </div>
+                  <button className={`text-${event.color}-600 hover:text-${event.color}-700`}>
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              ))}
             </div>
+          </div>
 
-            {/* Startups */}
-            <div className="p-4 bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-              <div className="flex items-center mb-3 space-x-3">
-                <span className="text-2xl">🚀</span>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Startup Program
-                </h3>
-              </div>
-              <p className="mb-4 text-sm text-gray-600">
-                Campus Startup Challenge 2024
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-500">Prize Pool: ₹10L</span>
-                <button className="px-3 py-1 text-sm text-purple-600 bg-white rounded-lg hover:bg-purple-50">
-                  Register
-                </button>
-              </div>
+          {/* Recommendations */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">Recommended for You</h2>
+              <button className="text-sm font-medium text-blue-600 hover:text-blue-700">
+                View All
+              </button>
             </div>
-
-            {/* Awards */}
-            <div className="p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-              <div className="flex items-center mb-3 space-x-3">
-                <span className="text-2xl">🏆</span>
-                <h3 className="text-lg font-semibold text-gray-900">Awards</h3>
-              </div>
-              <p className="mb-4 text-sm text-gray-600">
-                Young Innovator Award 2024
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-500">Nominations Open</span>
-                <button className="px-3 py-1 text-sm text-yellow-600 bg-white rounded-lg hover:bg-yellow-50">
-                  Nominate
-                </button>
-              </div>
-            </div>
-
-            {/* Hackathons */}
-            <div className="p-4 bg-gradient-to-br from-red-50 to-red-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-              <div className="flex items-center mb-3 space-x-3">
-                <span className="text-2xl">💻</span>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Hackathon
-                </h3>
-              </div>
-              <p className="mb-4 text-sm text-gray-600">
-                National AI/ML Hackathon
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-500">
-                  Starts: 1 Apr 2024
-                </span>
-                <button className="px-3 py-1 text-sm text-red-600 bg-white rounded-lg hover:bg-red-50">
-                  Join Team
-                </button>
-              </div>
-            </div>
-
-            {/* Grants */}
-            <div className="p-4 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-xl transition-all duration-300 shadow-custom hover:shadow-custom-hover">
-              <div className="flex items-center mb-3 space-x-3">
-                <span className="text-2xl">💰</span>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Research Grant
-                </h3>
-              </div>
-              <p className="mb-4 text-sm text-gray-600">
-                Student Innovation Research Grant
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="text-xs text-gray-500">Grant: ₹5L</span>
-                <button className="px-3 py-1 text-sm text-indigo-600 bg-white rounded-lg hover:bg-indigo-50">
-                  Submit Proposal
-                </button>
-              </div>
+            <div className="space-y-4">
+              {[
+                {
+                  title: "Research Grant Opportunity",
+                  desc: "Apply for the Innovation Research Grant 2024",
+                  deadline: "Deadline: Mar 30",
+                  type: "Grant",
+                  amount: "₹5L"
+                },
+                {
+                  title: "Patent Writing Workshop",
+                  desc: "Learn effective patent writing techniques",
+                  deadline: "Starts: Apr 5",
+                  type: "Workshop",
+                  amount: "Free"
+                }
+              ].map((rec, idx) => (
+                <div key={idx} className="p-4 rounded-lg border border-gray-100 transition-colors hover:border-blue-100">
+                  <div className="flex justify-between items-start">
+                    <div className="space-y-1">
+                      <h3 className="text-sm font-medium text-gray-900">{rec.title}</h3>
+                      <p className="text-sm text-gray-500">{rec.desc}</p>
+                      <p className="text-xs text-gray-400">{rec.deadline}</p>
+                    </div>
+                    <span className="px-2.5 py-1 text-xs font-medium bg-blue-50 text-blue-700 rounded-full">
+                      {rec.amount}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -892,275 +951,238 @@ const StudentDashboard = () => {
 
   const renderTeamContent = () => {
     return (
-      <div className="p-8 bg-white rounded-xl shadow-sm">
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800">Hosting Team</h2>
-            <p className="mt-1 text-gray-600">Manage your project teams</p>
+      <div className="space-y-8">
+        {/* Team Overview Section */}
+        <div className="p-6 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-lg">
+          <div className="flex flex-col gap-6 justify-between items-start md:flex-row md:items-center">
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold text-white">Your Innovation Teams</h2>
+              <p className="text-blue-100">Collaborate, innovate, and track your team's progress</p>
+            </div>
+            <button
+              onClick={() => setShowTeamForm(true)}
+              className="inline-flex items-center px-4 py-2 text-blue-600 bg-white rounded-lg transition-all duration-200 hover:bg-blue-50"
+            >
+              <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Create New Team
+            </button>
           </div>
-          <button
-            onClick={() => setShowTeamForm(!showTeamForm)}
-            className={`px-6 py-2.5 rounded-lg transition-all duration-300 ${
-              showTeamForm
-                ? "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                : "bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600"
-            }`}
-          >
-            {showTeamForm ? (
-              <span className="flex items-center">
-                <i className="mr-2 fas fa-times"></i>
-                Cancel
-              </span>
-            ) : (
-              <span className="flex items-center">
-                <i className="mr-2 fas fa-plus"></i>
-                Create Team
-              </span>
-            )}
-          </button>
         </div>
 
-        {/* Team Creation Form */}
-        {showTeamForm && (
-          <form
-            onSubmit={handleTeamSubmit}
-            className="p-6 mb-8 bg-gray-50 rounded-lg border border-gray-100"
-          >
-            <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2">
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700">
-                  Team Name
-                </label>
-                <input
-                  type="text"
-                  value={teamName}
-                  onChange={(e) => setTeamName(e.target.value)}
-                  className="px-4 py-3 w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="Enter team name"
-                  required
-                />
-              </div>
-              <div>
-                <label className="block mb-2 text-sm font-medium text-gray-700">
-                  Project Type
-                </label>
-                <input
-                  type="text"
-                  value={projectType}
-                  onChange={(e) => setProjectType(e.target.value)}
-                  className="px-4 py-3 w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                  placeholder="Enter project type"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Team Description
-              </label>
-              <textarea
-                value={teamDescription}
-                onChange={(e) => setTeamDescription(e.target.value)}
-                rows="3"
-                className="px-4 py-3 w-full rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="Describe your team's purpose and goals"
-                required
-              />
-            </div>
-
-            {/* Mentor Section */}
-            <div className="mb-6">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Mentor Assignment
-              </label>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4">
-                  <select
-                    value={mentorType}
-                    onChange={(e) => setMentorType(e.target.value)}
-                    className="rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                  >
-                    <option value="assign">Assign Mentor</option>
-                    <option value="request">Request Mentor</option>
-                  </select>
-                </div>
-
-                {mentorType === "assign" && (
-                  <div className="flex-1">
-                    <input
-                      type="text"
-                      value={mentorName}
-                      onChange={(e) => setMentorName(e.target.value)}
-                      placeholder="Enter mentor name"
-                      className="px-4 py-2 w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-blue-500"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Team Members
-              </label>
-              <div className="space-y-3">
-                {teamMembers.map((member, index) => (
-                  <div key={index} className="flex items-center space-x-3">
-                    <input
-                      type="text"
-                      value={member}
-                      onChange={(e) =>
-                        handleMemberChange(index, e.target.value)
-                      }
-                      className="flex-1 px-4 py-3 rounded-lg border-gray-200 focus:border-blue-500 focus:ring-blue-500"
-                      placeholder="Enter member name"
-                      required
-                    />
-                    {teamMembers.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveMember(index)}
-                        className="p-2 text-red-600 transition-colors duration-200 hover:text-red-800"
-                      >
-                        <i className="fas fa-times"></i>
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </div>
-              <button
-                type="button"
-                onClick={handleAddMember}
-                className="mt-3 text-sm text-blue-600 transition-colors duration-200 hover:text-blue-800"
-              >
-                <i className="mr-2 fas fa-plus"></i>
-                Add Member
-              </button>
-            </div>
-
-            <div className="flex justify-end space-x-4">
-              <button
-                type="button"
-                onClick={() => setShowTeamForm(false)}
-                className="px-6 py-2.5 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors duration-300"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-2.5 text-white bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg hover:from-blue-700 hover:to-blue-600 transition-all duration-300 shadow-sm hover:shadow-md"
-              >
-                Create Team
-              </button>
-            </div>
-          </form>
-        )}
-
-        {/* Teams List */}
-        <div className="space-y-6">
+        {/* Teams Grid */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {teams.map((team) => (
-            <div
-              key={team.id}
-              className="p-6 bg-gray-50 rounded-lg border border-gray-100 transition-all duration-300 hover:shadow-md"
-            >
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {team.name}
-                  </h3>
-                  <p className="mt-1 text-sm text-gray-600">
-                    {team.projectType}
-                  </p>
+            <div key={team.id} className="bg-white rounded-xl shadow-sm transition-all duration-300 hover:shadow-md">
+              <div className="p-6">
+                {/* Team Header */}
+                <div className="flex justify-between items-start mb-4">
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-semibold text-gray-900">{team.name}</h3>
+                    <p className="text-sm text-gray-500">{team.projectType}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <button className="p-2 text-gray-400 rounded-lg transition-colors hover:text-blue-600 hover:bg-blue-50">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                      </svg>
+                    </button>
+                    <button className="p-2 text-gray-400 rounded-lg transition-colors hover:text-red-600 hover:bg-red-50">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() => handleDeleteTeam(team.id)}
-                    className="p-2 text-red-600 rounded-full transition-colors duration-200 hover:bg-red-50"
-                    title="Delete Team"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="w-5 h-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <p className="mb-4 text-gray-700">{team.description}</p>
 
-              {/* Mentor Status */}
-              <div className="mb-4">
-                <h4 className="mb-2 text-sm font-medium text-gray-700">
-                  Mentor Status
-                </h4>
-                <div className="flex items-center space-x-2">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm ${
-                      team.mentorType === "assign"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {team.mentorType === "assign"
-                      ? `Mentor: ${team.mentor}`
-                      : "Mentor: Not Assigned (Requested)"}
-                  </span>
+                {/* Team Description */}
+                <p className="mb-4 text-gray-600">{team.description}</p>
+
+                {/* Team Members */}
+                <div className="space-y-3">
+                  <h4 className="text-sm font-medium text-gray-700">Team Members</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {team.members.map((member, idx) => (
+                      <span
+                        key={idx}
+                        className="px-3 py-1 text-sm text-gray-700 bg-gray-100 rounded-full"
+                      >
+                        {member}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Mentor Section */}
+                <div className="pt-4 mt-4 border-t">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-700">Mentor</h4>
+                      <p className="text-sm text-gray-600">{team.mentor || 'Not assigned'}</p>
+                    </div>
+                    <button className="px-3 py-1 text-sm text-blue-600 bg-blue-50 rounded-lg transition-colors hover:bg-blue-100">
+                      {team.mentorType === 'assign' ? 'Change Mentor' : 'Request Mentor'}
+                    </button>
+                  </div>
                 </div>
               </div>
 
-              {/* Existing team members section */}
-              <div>
-                <h4 className="mb-2 text-sm font-medium text-gray-700">
-                  Team Members
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {team.members.map((member, index) => (
-                    <span
-                      key={index}
-                      className="px-3 py-1 text-sm text-gray-700 bg-white rounded-full border border-gray-200"
-                    >
-                      {member}
+              {/* Team Actions */}
+              <div className="px-6 py-4 bg-gray-50 rounded-b-xl border-t">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <span className="flex w-3 h-3">
+                      <span className="inline-flex absolute w-3 h-3 bg-green-400 rounded-full opacity-75 animate-ping"></span>
+                      <span className="inline-flex relative w-3 h-3 bg-green-500 rounded-full"></span>
                     </span>
-                  ))}
+                    <span className="text-sm text-gray-600">Active Project</span>
+                  </div>
+                  <button className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700">
+                    View Details →
+                  </button>
                 </div>
               </div>
             </div>
           ))}
-
-          {teams.length === 0 && (
-            <div className="py-12 text-center">
-              <div className="mb-4 text-gray-400">
-                <svg
-                  className="mx-auto w-12 h-12"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="mb-2 text-lg font-medium text-gray-900">
-                No teams created
-              </h3>
-              <p className="text-gray-500">Start by creating your first team</p>
-            </div>
-          )}
         </div>
+
+        {/* Create Team Modal */}
+        {showTeamForm && (
+          <div className="flex fixed inset-0 z-50 justify-center items-center bg-black bg-opacity-50">
+            <div className="w-full max-w-md bg-white rounded-xl shadow-lg" onClick={e => e.stopPropagation()}>
+              <div className="flex justify-between items-center p-6 border-b">
+                <h3 className="text-xl font-semibold text-gray-900">Create New Team</h3>
+                <button
+                  onClick={() => setShowTeamForm(false)}
+                  className="text-gray-400 hover:text-gray-500"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="p-6 space-y-4">
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
+                    Team Name
+                  </label>
+                  <input
+                    type="text"
+                    value={teamName}
+                    onChange={(e) => setTeamName(e.target.value)}
+                    className="px-3 py-2 w-full rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Enter team name"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
+                    Project Type
+                  </label>
+                  <select
+                    value={projectType}
+                    onChange={(e) => setProjectType(e.target.value)}
+                    className="px-3 py-2 w-full rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="">Select project type</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Mobile App">Mobile App</option>
+                    <option value="AI/ML">AI/ML</option>
+                    <option value="IoT">IoT</option>
+                    <option value="Blockchain">Blockchain</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
+                    Description
+                  </label>
+                  <textarea
+                    value={teamDescription}
+                    onChange={(e) => setTeamDescription(e.target.value)}
+                    className="px-3 py-2 w-full rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    rows="3"
+                    placeholder="Describe your team's project"
+                  />
+                </div>
+
+                <div>
+                  <label className="block mb-1 text-sm font-medium text-gray-700">
+                    Team Members
+                  </label>
+                  {teamMembers.map((member, index) => (
+                    <div key={index} className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        value={member}
+                        onChange={(e) => {
+                          const newMembers = [...teamMembers];
+                          newMembers[index] = e.target.value;
+                          setTeamMembers(newMembers);
+                        }}
+                        className="flex-1 px-3 py-2 rounded-lg border focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Enter member name"
+                      />
+                      {teamMembers.length > 1 && (
+                        <button
+                          onClick={() => {
+                            const newMembers = teamMembers.filter((_, i) => i !== index);
+                            setTeamMembers(newMembers);
+                          }}
+                          className="p-2 text-red-600 rounded-lg transition-colors hover:bg-red-50"
+                        >
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    onClick={() => setTeamMembers([...teamMembers, ""])}
+                    className="text-sm text-blue-600 hover:text-blue-700"
+                  >
+                    + Add Member
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex gap-3 justify-end px-6 py-4 bg-gray-50 rounded-b-xl">
+                <button
+                  onClick={() => setShowTeamForm(false)}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    // Handle team creation logic here
+                    const newTeam = {
+                      id: teams.length + 1,
+                      name: teamName,
+                      projectType,
+                      description: teamDescription,
+                      members: teamMembers.filter(member => member.trim() !== ""),
+                      mentorType: "request",
+                      mentor: null
+                    };
+                    setTeams([...teams, newTeam]);
+                    setShowTeamForm(false);
+                    setTeamName("");
+                    setProjectType("");
+                    setTeamDescription("");
+                    setTeamMembers([""]);
+                  }}
+                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700"
+                >
+                  Create Team
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -1275,108 +1297,146 @@ const StudentDashboard = () => {
   // Profile content section
   const renderProfileContent = () => (
     <div className="space-y-6">
-      {/* Profile Header */}
-      <div className="p-6 bg-white rounded-xl shadow-sm">
-        <div className="flex items-center space-x-4">
-          <div className="flex justify-center items-center w-20 h-20 bg-blue-100 rounded-full">
-            <FiUser className="w-10 h-10 text-blue-600" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900">
-              {user?.name || "Student Name"}
-            </h2>
-            <p className="text-gray-600">
-              {user?.email || "student@example.com"}
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Personal Information */}
-      <div className="p-6 bg-white rounded-xl shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900">
-          Personal Information
-        </h3>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Full Name
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.name}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Roll Number
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.rollNo}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Class
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.class}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Division
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.division}</p>
+      {/* Profile Header with Cover Image */}
+      <div className="overflow-hidden relative bg-white rounded-xl shadow-sm">
+        <div className="h-48 bg-gradient-to-r from-blue-500 to-blue-600"></div>
+        <div className="relative px-6 pb-6">
+          <div className="flex flex-col gap-4 items-center -mt-12 sm:flex-row">
+            <div className="relative">
+              <div className="p-1 w-24 h-24 bg-white rounded-full shadow-lg">
+                <div className="flex justify-center items-center w-full h-full bg-blue-100 rounded-full">
+                  <FiUser className="w-12 h-12 text-blue-600" />
+                </div>
+              </div>
+              <button className="absolute bottom-0 right-0 p-1.5 bg-blue-600 rounded-full text-white hover:bg-blue-700 transition-colors">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </button>
+            </div>
+            <div className="flex-1 text-center sm:text-left">
+              <h2 className="text-2xl font-bold text-gray-900">{studentInfo.name}</h2>
+              <p className="text-gray-600">{studentInfo.class}</p>
+            </div>
+            <div className="flex gap-3">
+              <button className="px-4 py-2 text-sm font-medium text-blue-600 bg-blue-50 rounded-lg transition-colors hover:bg-blue-100">
+                Edit Profile
+              </button>
+              <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg transition-colors hover:bg-blue-700">
+                Share Profile
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Contact Information */}
-      <div className="p-6 bg-white rounded-xl shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900">
-          Contact Information
-        </h3>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.email}</p>
+      {/* Quick Stats */}
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+        {[
+          { label: 'Projects', value: '12', icon: '🎯', color: 'blue' },
+          { label: 'Publications', value: '5', icon: '📚', color: 'green' },
+          { label: 'Patents', value: '3', icon: '📜', color: 'purple' },
+          { label: 'Awards', value: '8', icon: '🏆', color: 'yellow' }
+        ].map((stat, idx) => (
+          <div key={idx} className="p-6 bg-white rounded-xl shadow-sm transition-all hover:shadow-md">
+            <div className={`w-12 h-12 mb-4 rounded-lg bg-${stat.color}-50 flex items-center justify-center`}>
+              <span className="text-2xl">{stat.icon}</span>
+            </div>
+            <h4 className="text-sm font-medium text-gray-500">{stat.label}</h4>
+            <div className="flex gap-2 items-baseline mt-2">
+              <span className="text-2xl font-bold text-gray-900">{stat.value}</span>
+              <span className="text-sm font-medium text-green-600">+2 this year</span>
+            </div>
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Phone
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.phone}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Parent's Phone
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.parentPhone}</p>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Address
-            </label>
-            <p className="mt-1 text-gray-900">{studentInfo.address}</p>
-          </div>
-        </div>
+        ))}
       </div>
 
-      {/* Academic Progress */}
-      <div className="p-6 bg-white rounded-xl shadow-sm">
-        <h3 className="mb-4 text-lg font-semibold text-gray-900">
-          Academic Progress
-        </h3>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="p-4 bg-blue-50 rounded-lg">
-            <h4 className="text-sm font-medium text-blue-700">Projects</h4>
-            <p className="mt-2 text-2xl font-bold text-blue-900">12</p>
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        {/* Personal Information */}
+        <div className="p-6 bg-white rounded-xl shadow-sm lg:col-span-2">
+          <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
+            <button className="flex gap-2 items-center text-blue-600 hover:text-blue-700">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              Edit
+            </button>
           </div>
-          <div className="p-4 bg-green-50 rounded-lg">
-            <h4 className="text-sm font-medium text-green-700">Achievements</h4>
-            <p className="mt-2 text-2xl font-bold text-green-900">8</p>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            {[
+              { label: 'Full Name', value: studentInfo.name },
+              { label: 'Roll Number', value: studentInfo.rollNo },
+              { label: 'Email', value: studentInfo.email },
+              { label: 'Phone', value: studentInfo.phone },
+              { label: 'Class', value: studentInfo.class },
+              { label: 'Division', value: studentInfo.division }
+            ].map((field, idx) => (
+              <div key={idx} className="space-y-2">
+                <label className="text-sm font-medium text-gray-500">{field.label}</label>
+                <p className="pb-2 text-gray-900 border-b border-gray-100">{field.value}</p>
+              </div>
+            ))}
           </div>
-          <div className="p-4 bg-purple-50 rounded-lg">
-            <h4 className="text-sm font-medium text-purple-700">
-              Certifications
-            </h4>
-            <p className="mt-2 text-2xl font-bold text-purple-900">5</p>
+        </div>
+
+        {/* Skills & Expertise */}
+        <div className="p-6 bg-white rounded-xl shadow-sm">
+          <h3 className="mb-6 text-lg font-semibold text-gray-900">Skills & Expertise</h3>
+          <div className="space-y-4">
+            {[
+              { skill: 'Innovation Management', level: 85 },
+              { skill: 'Research & Development', level: 75 },
+              { skill: 'Patent Writing', level: 65 },
+              { skill: 'Project Leadership', level: 90 }
+            ].map((skill, idx) => (
+              <div key={idx} className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm font-medium text-gray-700">{skill.skill}</span>
+                  <span className="text-sm text-gray-500">{skill.level}%</span>
+                </div>
+                <div className="overflow-hidden h-2 bg-gray-100 rounded-full">
+                  <div 
+                    className="h-full bg-blue-600 rounded-full"
+                    style={{ width: `${skill.level}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Recent Activities */}
+        <div className="p-6 bg-white rounded-xl shadow-sm lg:col-span-3">
+          <h3 className="mb-6 text-lg font-semibold text-gray-900">Recent Activities</h3>
+          <div className="space-y-6">
+            {[
+              { type: 'Project', title: 'AI Research Paper Published', date: '2 days ago', status: 'Completed' },
+              { type: 'Patent', title: 'Filed New Patent Application', date: '1 week ago', status: 'Pending' },
+              { type: 'Award', title: 'Won Innovation Challenge', date: '2 weeks ago', status: 'Achieved' }
+            ].map((activity, idx) => (
+              <div key={idx} className="flex gap-4 items-start p-4 rounded-lg transition-colors hover:bg-gray-50">
+                <div className="flex-shrink-0">
+                  <div className="flex justify-center items-center w-10 h-10 bg-blue-50 rounded-full">
+                    <span className="text-lg text-blue-600">
+                      {activity.type === 'Project' ? '📝' : activity.type === 'Patent' ? '📜' : '🏆'}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-sm font-medium text-gray-900">{activity.title}</h4>
+                  <p className="text-sm text-gray-500">{activity.date}</p>
+                </div>
+                <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${
+                  activity.status === 'Completed' ? 'bg-green-50 text-green-700' :
+                  activity.status === 'Pending' ? 'bg-yellow-50 text-yellow-700' :
+                  'bg-blue-50 text-blue-700'
+                }`}>
+                  {activity.status}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -1545,6 +1605,310 @@ const StudentDashboard = () => {
     ],
   };
 
+  const StatDetailsModal = ({ stat, onClose }) => {
+    const getStatDetails = (type) => {
+      switch (type) {
+        case 'Patents':
+          return [
+            { title: 'AI-Based Healthcare System', status: 'Granted', date: '2024-02-15', ref: 'PAT2024-001', domain: 'Healthcare' },
+            { title: 'Smart Agriculture Solution', status: 'Pending', date: '2024-01-20', ref: 'PAT2024-002', domain: 'Agriculture' },
+            { title: 'IoT Security Framework', status: 'Filed', date: '2023-12-10', ref: 'PAT2023-045', domain: 'Cybersecurity' }
+          ];
+        case 'Research Papers':
+          return [
+            { title: 'Machine Learning in Healthcare', journal: 'International Journal of Innovation', status: 'Published', date: '2024-02-01', citations: '12' },
+            { title: 'Blockchain Technology Impact', journal: 'Tech Innovation Review', status: 'Under Review', date: '2024-01-15' },
+            { title: 'Sustainable Computing', journal: 'Green Technology Journal', status: 'Accepted', date: '2024-02-20' }
+          ];
+        case 'Startups Incubated':
+          return [
+            { title: 'EcoTech Solutions', sector: 'CleanTech', stage: 'Seed', funding: '₹10L', team: '5 members' },
+            { title: 'HealthAI', sector: 'Healthcare', stage: 'Ideation', funding: 'Bootstrapped', team: '3 members' }
+          ];
+        case 'Awards Won':
+          return [
+            { title: 'Best Innovation Award', event: 'National Innovation Fair 2024', date: '2024-02-01', prize: '₹50,000' },
+            { title: 'Young Innovator Award', event: 'State Science Congress', date: '2024-01-15', prize: '₹25,000' }
+          ];
+        default:
+          return [];
+      }
+    };
+
+    return (
+      <div className="flex fixed inset-0 z-50 justify-center items-center bg-black bg-opacity-50" onClick={onClose}>
+        <div className="relative w-full max-w-md bg-white rounded-xl shadow-lg" onClick={e => e.stopPropagation()}>
+          {/* Header */}
+          <div className="flex justify-between items-center p-4 border-b">
+            <div className="flex gap-3 items-center">
+              <div className={`p-2 rounded-lg ${
+                stat.label === 'Patents' ? 'bg-blue-50 text-blue-600' :
+                stat.label === 'Research Papers' ? 'bg-purple-50 text-purple-600' :
+                stat.label === 'Startups Incubated' ? 'bg-green-50 text-green-600' :
+                'bg-amber-50 text-amber-600'
+              }`}>
+                <span className="text-xl">{stat.icon}</span>
+              </div>
+              <h3 className="text-lg font-semibold text-gray-900">{stat.label}</h3>
+            </div>
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Content */}
+          <div className="p-4 max-h-[60vh] overflow-y-auto">
+            <div className="space-y-3">
+              {getStatDetails(stat.label).map((item, idx) => (
+                <div key={idx} className="p-3 bg-gray-50 rounded-lg transition-colors hover:bg-gray-100">
+                  <h4 className="font-medium text-gray-900">{item.title}</h4>
+                  <div className="mt-1 space-y-1">
+                    {item.journal && (
+                      <p className="text-sm text-gray-600">Journal: {item.journal}</p>
+                    )}
+                    {item.sector && (
+                      <p className="text-sm text-gray-600">
+                        Sector: {item.sector} • Team: {item.team}
+                      </p>
+                    )}
+                    {item.event && (
+                      <p className="text-sm text-gray-600">Event: {item.event}</p>
+                    )}
+                    {item.date && (
+                      <p className="text-sm text-gray-500">Date: {item.date}</p>
+                    )}
+                    <div className="flex justify-between items-center mt-2">
+                      {item.status && (
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                          item.status === 'Granted' || item.status === 'Published' ? 
+                          'bg-green-50 text-green-700' :
+                          item.status === 'Pending' || item.status === 'Under Review' ? 
+                          'bg-yellow-50 text-yellow-700' :
+                          'bg-blue-50 text-blue-700'
+                        }`}>
+                          {item.status}
+                        </span>
+                      )}
+                      {(item.funding || item.prize) && (
+                        <span className="text-sm font-medium text-blue-600">
+                          {item.funding || item.prize}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const skillsData = [
+    { name: 'Problem Solving', value: 92, fill: '#8884d8' },
+    { name: 'Critical Thinking', value: 88, fill: '#83a6ed' },
+    { name: 'Innovation Design', value: 85, fill: '#8dd1e1' },
+    { name: 'Market Analysis', value: 78, fill: '#82ca9d' },
+    { name: 'Technical Knowledge', value: 90, fill: '#a4de6c' }
+  ];
+
+  const renderTestAnalysisContent = () => {
+    return (
+      <div className="space-y-8">
+        {/* Header Section */}
+        <div className="p-6 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl shadow-lg">
+          <div className="flex flex-col gap-4 justify-between items-start md:flex-row md:items-center">
+            <div className="space-y-2">
+              <h2 className="text-2xl font-bold text-white">Innovation Assessment Analysis</h2>
+              <p className="text-purple-100">Track your performance across different innovation parameters</p>
+            </div>
+            <button className="inline-flex items-center px-4 py-2 text-purple-600 bg-white rounded-lg transition-all duration-200 hover:bg-purple-50">
+              <svg className="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              Take New Assessment
+            </button>
+          </div>
+        </div>
+
+        {/* Performance Overview with Radial Chart */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="p-6 bg-white rounded-xl shadow-sm md:col-span-2">
+            <h3 className="mb-6 text-lg font-semibold text-gray-900">Skills Overview</h3>
+            <div className="h-80">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadialBarChart 
+                  cx="50%" 
+                  cy="50%" 
+                  innerRadius="20%" 
+                  outerRadius="90%" 
+                  barSize={20} 
+                  data={skillsData}
+                >
+                  <PolarAngleAxis
+                    type="number"
+                    domain={[0, 100]}
+                    angleAxisId={0}
+                    tick={false}
+                  />
+                  <RadialBar
+                    background
+                    dataKey="value"
+                    angleAxisId={0}
+                    label={{ 
+                      position: 'insideStart',
+                      fill: '#fff',
+                      fontWeight: 'bold'
+                    }}
+                  />
+                  <Legend
+                    iconSize={10}
+                    layout="vertical"
+                    verticalAlign="middle"
+                    align="right"
+                    wrapperStyle={{
+                      paddingLeft: '10px'
+                    }}
+                  />
+                </RadialBarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Overall Score Card */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Overall Score</h3>
+                <p className="text-sm text-gray-500">Last 6 months</p>
+              </div>
+              <span className="px-3 py-1 text-sm font-medium text-green-700 bg-green-50 rounded-full">
+                +12%
+              </span>
+            </div>
+            <div className="text-3xl font-bold text-gray-900">85.6</div>
+            <div className="mt-4 h-2 bg-gray-100 rounded-full">
+              <div className="h-full w-[85.6%] bg-purple-600 rounded-full"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Progress Cards */}
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Tests Progress */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-lg font-semibold text-gray-900">Assessment Progress</h3>
+              <select className="px-3 py-1 text-sm rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-500">
+                <option>This Month</option>
+                <option>Last 3 Months</option>
+                <option>Last 6 Months</option>
+              </select>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-4 bg-purple-50 rounded-lg">
+                <h4 className="text-sm font-medium text-purple-700">Completed</h4>
+                <p className="mt-2 text-2xl font-bold text-purple-900">12</p>
+                <p className="text-sm text-purple-600">Out of 15 tests</p>
+              </div>
+              <div className="p-4 bg-green-50 rounded-lg">
+                <h4 className="text-sm font-medium text-green-700">Success Rate</h4>
+                <p className="mt-2 text-2xl font-bold text-green-900">86%</p>
+                <p className="text-sm text-green-600">+5% from last month</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Next Assessments */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <h3 className="mb-6 text-lg font-semibold text-gray-900">Upcoming Assessments</h3>
+            <div className="space-y-4">
+              {[
+                { title: 'Design Thinking', date: '2024-03-01', type: 'Required' },
+                { title: 'Patent Writing', date: '2024-03-05', type: 'Optional' }
+              ].map((test, idx) => (
+                <div key={idx} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg">
+                  <div>
+                    <h4 className="font-medium text-gray-900">{test.title}</h4>
+                    <p className="text-sm text-gray-500">Due: {test.date}</p>
+                  </div>
+                  <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${
+                    test.type === 'Required' ? 'bg-red-50 text-red-700' : 'bg-blue-50 text-blue-700'
+                  }`}>
+                    {test.type}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Detailed Analysis */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          {/* Skills Breakdown */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <h3 className="mb-6 text-lg font-semibold text-gray-900">Skills Breakdown</h3>
+            <div className="space-y-4">
+              {[
+                { skill: 'Problem Solving', score: 92 },
+                { skill: 'Critical Thinking', score: 88 },
+                { skill: 'Innovation Design', score: 85 },
+                { skill: 'Market Analysis', score: 78 },
+                { skill: 'Technical Knowledge', score: 90 }
+              ].map((item, idx) => (
+                <div key={idx} className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium text-gray-700">{item.skill}</span>
+                    <span className="text-sm text-gray-600">{item.score}%</span>
+                  </div>
+                  <div className="h-2 bg-gray-100 rounded-full">
+                    <div 
+                      className="h-full bg-purple-600 rounded-full transition-all duration-300"
+                      style={{ width: `${item.score}%` }}
+                    ></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent Assessments */}
+          <div className="p-6 bg-white rounded-xl shadow-sm">
+            <h3 className="mb-6 text-lg font-semibold text-gray-900">Recent Assessments</h3>
+            <div className="space-y-4">
+              {[
+                { title: 'Innovation Strategy', date: '2024-02-15', score: 88, status: 'Completed' },
+                { title: 'Market Analysis', date: '2024-02-10', score: 92, status: 'Completed' },
+                { title: 'Technical Assessment', date: '2024-02-05', score: 85, status: 'Completed' },
+                { title: 'Design Thinking', date: 'Scheduled', status: 'Pending' }
+              ].map((assessment, idx) => (
+                <div key={idx} className="flex justify-between items-center p-4 bg-gray-50 rounded-lg transition-colors hover:bg-gray-100">
+                  <div className="space-y-1">
+                    <h4 className="font-medium text-gray-900">{assessment.title}</h4>
+                    <p className="text-sm text-gray-500">{assessment.date}</p>
+                  </div>
+                  <div className="flex gap-3 items-center">
+                    {assessment.score && (
+                      <span className="text-lg font-semibold text-gray-900">{assessment.score}%</span>
+                    )}
+                    <span className={`px-2.5 py-1 text-xs font-medium rounded-full ${
+                      assessment.status === 'Completed' ? 'bg-green-50 text-green-700' : 'bg-yellow-50 text-yellow-700'
+                    }`}>
+                      {assessment.status}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex min-h-screen bg-gray-50">
       <ToastContainer />
@@ -1662,10 +2026,22 @@ const StudentDashboard = () => {
             {activeMenuItem === "achievements" && renderAchievementsContent()}
             {activeMenuItem === "verification" && <VerificationComp />}
             {activeMenuItem === "team" && renderTeamContent()}
+            {activeMenuItem === "test-analysis" && renderTestAnalysisContent()}
             {activeMenuItem === "communities" && renderLeaderboardContent()}
           </div>
         </main>
       </div>
+
+      {/* Add this at the end of renderDashboardContent return statement */}
+      {showStatModal && selectedStat && (
+        <StatDetailsModal 
+          stat={selectedStat} 
+          onClose={() => {
+            setSelectedStat(null);
+            setShowStatModal(false);
+          }} 
+        />
+      )}
     </div>
   );
 };

@@ -149,9 +149,9 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="px-8 py-6 mt-4 w-full max-w-md bg-white rounded-xl shadow-2xl transform transition-all hover:scale-[1.01]">
-        <div className="flex justify-center space-x-4 mb-6">
-          <img src={logo} alt="Logo" className="h-12 w-auto" />
-          <img src={logo2} alt="Logo 2" className="h-12 w-auto" />
+        <div className="flex justify-center mb-6 space-x-4">
+          <img src={logo} alt="Logo" className="w-auto h-12" />
+          <img src={logo2} alt="Logo 2" className="w-auto h-12" />
         </div>
 
         <h3 className="mb-8 text-2xl font-bold text-center text-gray-800">
@@ -179,8 +179,10 @@ const Login = () => {
               className="px-4 py-3 mt-1 w-full text-gray-700 bg-gray-50 rounded-lg border border-gray-200 transition-all focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="student">Student</option>
-              <option value="faculty">Faculty / Institute</option>
+              <option value="faculty">Faculty </option>
+              <option value="Institute">Institute </option>
               <option value="administrator">Administrator</option>
+              <option value="Stackholders">Stackholders</option>
             </select>
           </div>
 

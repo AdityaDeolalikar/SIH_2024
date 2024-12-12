@@ -148,9 +148,9 @@ const Signup = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="px-8 py-6 mt-4 w-full max-w-2xl bg-white rounded-xl shadow-2xl transform transition-all hover:scale-[1.01]">
-        <div className="flex justify-center space-x-4 mb-6">
-          <img src={logo} alt="Logo" className="h-12 w-auto" />
-          <img src={logo2} alt="Logo 2" className="h-12 w-auto" />
+        <div className="flex justify-center mb-6 space-x-4">
+          <img src={logo} alt="Logo" className="w-auto h-12" />
+          <img src={logo2} alt="Logo 2" className="w-auto h-12" />
         </div>
 
         <h3 className="mb-8 text-2xl font-bold text-center text-gray-800">
@@ -170,14 +170,14 @@ const Signup = () => {
           onSubmit={showOTP ? handleSubmit : requestOTP}
           className="space-y-6"
         >
-          <div className="flex justify-center space-x-4 mb-4">
+          <div className="flex justify-center mb-4 space-x-4">
             <label className="flex items-center space-x-2">
               <input
                 type="radio"
                 value="student"
                 checked={userType === "student"}
                 onChange={(e) => setUserType(e.target.value)}
-                className="form-radio text-blue-600"
+                className="text-blue-600 form-radio"
               />
               <span className="text-gray-700">Student</span>
             </label>
@@ -187,9 +187,19 @@ const Signup = () => {
                 value="faculty"
                 checked={userType === "faculty"}
                 onChange={(e) => setUserType(e.target.value)}
-                className="form-radio text-blue-600"
+                className="text-blue-600 form-radio"
               />
               <span className="text-gray-700">Faculty</span>
+            </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                value="Institute"
+                checked={userType === "Institute"}
+                onChange={(e) => setUserType(e.target.value)}
+                className="text-blue-600 form-radio"
+              />
+              <span className="text-gray-700">Institute</span>
             </label>
             <label className="flex items-center space-x-2">
               <input
@@ -197,10 +207,21 @@ const Signup = () => {
                 value="administrator"
                 checked={userType === "administrator"}
                 onChange={(e) => setUserType(e.target.value)}
-                className="form-radio text-blue-600"
+                className="text-blue-600 form-radio"
               />
               <span className="text-gray-700">Administrator</span>
             </label>
+            <label className="flex items-center space-x-2">
+              <input
+                type="radio"
+                value="Stackholders"
+                checked={userType === "Stackholders"}
+                onChange={(e) => setUserType(e.target.value)}
+                className="text-blue-600 form-radio"
+              />
+              <span className="text-gray-700">Stackholders</span>
+            </label>
+            
           </div>
 
           <div className="grid grid-cols-2 gap-4">
