@@ -32,4 +32,4 @@ const AchievementsPage = () => {
   return <Achievements achievements={achievements} />;
 };
 
-export default AchievementsPage; 
+export default AchievementsPage;

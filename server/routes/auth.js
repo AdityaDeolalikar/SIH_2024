@@ -173,7 +173,7 @@ authRouter.post("/signup", async (req, res) => {
   } catch (error) {
     console.error("Signup error:", error);
     res.status(500).json({
-      success: false,
+      success: false, 
       message: "Error creating user",
       error: error.message,
     });

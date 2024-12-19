@@ -118,30 +118,30 @@ const HeroSlider = () => {
   }
 
   return (
-    <div className="relative h-[85vh] bg-gradient-to-r from-blue-900 to-indigo-900">
-      <Slider {...settings} className="h-full">
+    <div className="relative w-full h-[500px] md:h-[600px] lg:h-[600px]">
+      <Slider {...settings} className="h-[600px]">
         {slides.map((slide) => (
-          <div key={slide.id} className="h-full outline-none">
-            <div className="flex h-full">
+          <div key={slide.id} className="relative h-full">
+            <div className="grid grid-cols-1 h-full lg:grid-cols-2">
               {/* Image Half */}
-              <div className="relative w-[40%] h-full">
-                <div className="absolute inset-0 z-10 bg-gradient-to-r to-transparent from-blue-900/30" />
+              <div className="relative h-[600px]">
+                <div className="absolute inset-0 bg-black/30" />
                 <img
                   src={slide.image}
                   alt={slide.title}
                   className="object-cover object-center w-full h-full"
                 />
-                <div className="absolute inset-0 bg-gradient-to-l via-transparent to-transparent from-blue-900/50" />
+                <div className="absolute inset-0 bg-gradient-to-r to-transparent from-black/50 via-black/30 lg:bg-gradient-to-r lg:from-black/60 lg:to-transparent" />
               </div>
 
               {/* Content Half */}
-              <div className="flex items-center px-16 w-[50%] h-full bg-gradient-to-l from-transparent to-blue-900/10">
-                <div className="space-y-8 max-w-2xl">
-                  <h2 className="text-5xl font-bold leading-tight text-white">
+              <div className="flex absolute inset-0 items-center lg:relative lg:inset-auto">
+                <div className="px-6 w-full md:px-12 lg:px-16">
+                  <h2 className="mb-4 text-2xl font-bold text-white md:text-3xl lg:text-4xl line-clamp-2 md:line-clamp-3 lg:text-gray-800">
                     {slide.title}
                   </h2>
-                  <div className="w-24 h-2 bg-blue-500 rounded-full" />
-                  <p className="text-xl leading-relaxed text-gray-200">
+                  <div className="mb-4 w-16 h-2 bg-blue-600 rounded-full md:w-20" />
+                  <p className="text-sm font-semibold text-gray-300 lg:text-gray-700 md:text-base lg:text-lg line-clamp-3 md:line-clamp-4">
                     {slide.description}
                   </p>
                 </div>
@@ -211,7 +211,7 @@ const InnovationIndicators = () => {
   ];
 
   return (
-    <div className="py-12 mt-14 bg-white lg:py-16">
+    <div className="py-12 mt-24 bg-white lg:py-16">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="mb-8 text-center lg:mb-12">
           <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl lg:text-4xl">
@@ -563,7 +563,7 @@ const HomePage = () => {
                   className="w-auto h-8 lg:h-10"
                 />
               </div>
-              <span className="text-2xl font-bold text-gray-800 lg:text-3xl">SRUJAN</span>
+              <span className="font-bold text-gray-800 text-md md:text-2xl lg:text-3xl">SRUJAN</span>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4">
               <Link

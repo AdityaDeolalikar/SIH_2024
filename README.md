@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+# Innovation Excellence Indicators Portal
+=======
 # Innovation Excellence Indicators Portal: SRUJAN
+>>>>>>> 24c1c470d3e2242f7c12fa808c76b4be58357e3a
 
 This portal tracks, measures, and showcases innovation excellence within educational institutions by aggregating data, providing analytics, and presenting key indicators through a user-friendly interface. It fosters collaboration, data-driven decision-making, and recognition of innovative achievements.
 
@@ -55,6 +59,10 @@ Ensure you have the following installed on your system:
      ```bash
      npm install
      ```
+<<<<<<< HEAD
+     ```
+=======
+>>>>>>> 24c1c470d3e2242f7c12fa808c76b4be58357e3a
    - Start the development server:
      ```bash
      npm start
