@@ -1,4 +1,4 @@
-# Innovation Excellence Indicators Portal
+# Innovation Excellence Indicators Portal: SRUJAN
 
 This portal tracks, measures, and showcases innovation excellence within educational institutions by aggregating data, providing analytics, and presenting key indicators through a user-friendly interface. It fosters collaboration, data-driven decision-making, and recognition of innovative achievements.
 
